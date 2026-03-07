@@ -67,10 +67,10 @@ The first shipped implementation is captured in ten ADRs:
 
 Runnable examples:
 
-- `examples/react-basic/`: permission flow, calibration, normalized intent, and confirmation state
-- `examples/react-stepper/`: discrete step editing with explicit confirmation
-- `examples/react-list-navigator/`: vertical list navigation with stable tilt zones
-- `apps/demo/`: a static demo site for GitHub Pages, plus a container image target for server deployment
+- [examples/react-basic/](https://baditaflorin.github.io/tilt-to-edit/basic/): permission flow, calibration, normalized intent, and confirmation state
+- [examples/react-stepper/](https://baditaflorin.github.io/tilt-to-edit/stepper/): discrete step editing with explicit confirmation
+- [examples/react-list-navigator/](https://baditaflorin.github.io/tilt-to-edit/list/): vertical list navigation with stable tilt zones
+- [apps/demo/](https://baditaflorin.github.io/tilt-to-edit/demo/): a static demo site for GitHub Pages, plus a container image target for server deployment
 
 The demo supports two modes:
 
