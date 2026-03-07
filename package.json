@@ -1,0 +1,38 @@
+{
+  "name": "tilt-to-edit",
+  "private": true,
+  "version": "0.2.0",
+  "packageManager": "npm@11.6.2",
+  "workspaces": [
+    "packages/*",
+    "apps/*",
+    "examples/*"
+  ],
+  "scripts": {
+    "build": "npm run build:packages && npm run build:examples && npm run build:demo",
+    "build:packages": "npm run build --workspace @tilt-to-edit/core && npm run build --workspace @tilt-to-edit/react",
+    "build:examples": "npm run build --workspace @tilt-to-edit/react-basic-example && npm run build --workspace @tilt-to-edit/react-stepper-example && npm run build --workspace @tilt-to-edit/react-list-navigator-example",
+    "build:demo": "npm run build --workspace @tilt-to-edit/demo",
+    "dev:demo": "npm run dev --workspace @tilt-to-edit/demo",
+    "dev:example:basic": "npm run dev --workspace @tilt-to-edit/react-basic-example",
+    "dev:example:stepper": "npm run dev --workspace @tilt-to-edit/react-stepper-example",
+    "dev:example:list": "npm run dev --workspace @tilt-to-edit/react-list-navigator-example",
+    "test": "vitest run",
+    "typecheck": "npm run typecheck --workspace @tilt-to-edit/core && npm run build --workspace @tilt-to-edit/core && npm run typecheck --workspace @tilt-to-edit/react && npm run build --workspace @tilt-to-edit/react && npm run typecheck --workspace @tilt-to-edit/react-basic-example && npm run typecheck --workspace @tilt-to-edit/react-stepper-example && npm run typecheck --workspace @tilt-to-edit/react-list-navigator-example && npm run typecheck --workspace @tilt-to-edit/demo",
+    "verify": "npm run typecheck && npm run test && npm run build"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.2.0",
+    "@types/node": "^22.13.10",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^5.0.4",
+    "jsdom": "^26.0.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "typescript": "^5.7.3",
+    "vite": "^6.2.2",
+    "vitest": "^3.0.8"
+  }
+}

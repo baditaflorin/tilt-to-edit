@@ -1,0 +1,126 @@
+body {
+  margin: 0;
+  font-family: "Avenir Next", "Segoe UI", sans-serif;
+  background:
+    radial-gradient(circle at top left, rgba(245, 158, 11, 0.18), transparent 32%),
+    linear-gradient(180deg, #f8fbff 0%, #eef4f7 100%);
+  color: #0f172a;
+}
+
+button {
+  border: 1px solid #0f172a;
+  border-radius: 999px;
+  background: #ffffff;
+  color: #0f172a;
+  padding: 0.7rem 1rem;
+  cursor: pointer;
+}
+
+button.active {
+  background: #0f172a;
+  color: #ffffff;
+}
+
+.page {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 3rem 1.25rem 4rem;
+}
+
+.hero {
+  display: grid;
+  gap: 1.5rem;
+  align-items: end;
+  margin-bottom: 2rem;
+}
+
+.hero h1 {
+  margin: 0.2rem 0 0.6rem;
+  max-width: 16ch;
+  font-size: clamp(2.6rem, 7vw, 4.8rem);
+  line-height: 0.95;
+}
+
+.eyebrow {
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 0.8rem;
+  color: #b45309;
+}
+
+.mode-switch {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.console,
+.grid {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.console {
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  margin-bottom: 1.5rem;
+}
+
+.grid {
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(12px);
+  border-radius: 24px;
+  padding: 1.5rem;
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.08);
+}
+
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 0.75rem;
+  margin: 1rem 0;
+}
+
+.metrics div {
+  display: grid;
+  gap: 0.25rem;
+  padding: 0.85rem;
+  border-radius: 16px;
+  background: #f8fafc;
+}
+
+.actions,
+.simulator {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.simulator {
+  flex-direction: column;
+  margin-top: 1rem;
+}
+
+.simulator label {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.diagnostics {
+  color: #9f1239;
+  margin-top: 1rem;
+}
+
+.live-note {
+  color: #334155;
+}
+
+@media (min-width: 900px) {
+  .hero {
+    grid-template-columns: 1.3fr 0.7fr;
+  }
+}

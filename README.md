@@ -1,1 +1,82 @@
 # tilt-to-edit
+
+`tilt-to-edit` is a TypeScript-first library for using device tilt as an intentional editing input in web applications. It turns raw orientation data into stable edit intent for sliders, steppers, list navigation, and similar controls.
+
+## Status
+
+`v0.2.0` implements ADR 0001 through ADR 0010.
+
+Implemented surfaces:
+
+- `@tilt-to-edit/core`: backend abstraction, permission diagnostics, calibration, normalization, continuous intent, discrete step events, and simulator support
+- `@tilt-to-edit/react`: `useTiltToEdit`, `TiltStepper`, `TiltSlider`, and `TiltListNavigator`
+- `examples/*`: runnable consumer apps
+- `apps/demo`: the GitHub Pages demo and containerized demo target
+
+## Repository Layout
+
+The repository is organized around a small set of responsibilities:
+
+- `docs/adr/`: architecture decision records for the first released implementation
+- `packages/core/`: framework-agnostic tilt engine
+- `packages/react/`: React hook and first-party UI primitives
+- `examples/`: runnable example applications that show focused integration patterns
+- `apps/demo/`: the GitHub Pages demo application and demo container target
+- `CHANGELOG.md`: version and release history
+
+## Quick Start
+
+```bash
+npm install
+npm run verify
+npm run dev:demo
+```
+
+Useful commands:
+
+- `npm run dev:demo`
+- `npm run dev:example:basic`
+- `npm run dev:example:stepper`
+- `npm run dev:example:list`
+- `npm run verify`
+
+## Architecture Decisions
+
+The first shipped implementation is captured in ten ADRs:
+
+1. [ADR 0001](docs/adr/0001-use-a-typescript-workspace-with-core-and-react-layers.md) - Use a TypeScript workspace with core and React layers
+2. [ADR 0002](docs/adr/0002-use-deviceorientationevent-as-the-primary-sensor-backend.md) - Use `DeviceOrientationEvent` as the primary sensor backend
+3. [ADR 0003](docs/adr/0003-make-permission-and-capability-diagnostics-first-class.md) - Make permission and capability diagnostics first-class
+4. [ADR 0004](docs/adr/0004-normalize-input-around-calibration-and-screen-orientation.md) - Normalize input around calibration and screen orientation
+5. [ADR 0005](docs/adr/0005-convert-raw-sensor-data-into-semantic-edit-intent.md) - Convert raw sensor data into semantic edit intent
+6. [ADR 0006](docs/adr/0006-require-explicit-commit-for-destructive-or-final-edits.md) - Require explicit commit for destructive or final edits
+7. [ADR 0007](docs/adr/0007-ship-a-first-party-react-adapter-first.md) - Ship a first-party React adapter first
+8. [ADR 0008](docs/adr/0008-build-simulation-and-testing-into-the-core.md) - Build simulation and testing into the core
+9. [ADR 0009](docs/adr/0009-maintain-examples-and-a-github-pages-demo.md) - Maintain examples and a GitHub Pages demo
+10. [ADR 0010](docs/adr/0010-track-releases-with-semver-and-a-changelog.md) - Track releases with SemVer and a changelog
+
+## Examples and Demo
+
+Runnable examples:
+
+- `examples/react-basic/`: permission flow, calibration, normalized intent, and confirmation state
+- `examples/react-stepper/`: discrete step editing with explicit confirmation
+- `examples/react-list-navigator/`: vertical list navigation with stable tilt zones
+- `apps/demo/`: a static demo site for GitHub Pages, plus a container image target for server deployment
+
+The demo supports two modes:
+
+- live device orientation on supported mobile browsers
+- simulator controls for desktop and unsupported environments
+
+## Delivery
+
+GitHub automation included in this repository:
+
+- `.github/workflows/ci.yml`: runs `npm run verify` on pull requests and pushes to `main`
+- `.github/workflows/demo-pages.yml`: deploys `apps/demo` to GitHub Pages on pushes to `main`
+- `.github/workflows/demo-image.yml`: publishes `ghcr.io/<owner>/tilt-to-edit-demo` for server-side `docker pull`
+
+## Change Tracking
+
+All planned and released changes should be recorded in [CHANGELOG.md](CHANGELOG.md).

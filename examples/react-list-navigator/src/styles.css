@@ -1,0 +1,39 @@
+body {
+  margin: 0;
+  font-family: "Segoe UI", sans-serif;
+  background: linear-gradient(180deg, #fff8f1 0%, #f3f4f6 100%);
+  color: #111827;
+}
+
+button {
+  border: 1px solid #111827;
+  border-radius: 999px;
+  background: #ffffff;
+  padding: 0.7rem 1rem;
+  cursor: pointer;
+}
+
+.shell {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 3rem 1.25rem;
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.8rem;
+  color: #b45309;
+}
+
+.simulator {
+  display: grid;
+  gap: 0.5rem;
+  padding: 1rem 0 1.5rem;
+}
+
+.simulator label {
+  display: grid;
+  gap: 0.35rem;
+}
+
