@@ -41,13 +41,16 @@ export function App() {
     <main className="page">
       <header className="hero">
         <div>
-          <p className="eyebrow">Tilt To Edit v0.2.0</p>
+          <p className="eyebrow">Tilt To Edit v0.2.1</p>
           <h1>Device tilt as intentional editing input</h1>
           <p>
             The demo runs on GitHub Pages and supports both live mobile sensors
             and a desktop simulator. It exercises the core engine, React hook,
             and first-party UI primitives together.
           </p>
+          <a className="back-link" href="../">
+            View all demos
+          </a>
         </div>
         <div className="mode-switch">
           <button
@@ -218,4 +221,3 @@ export function App() {
     </main>
   );
 }
-

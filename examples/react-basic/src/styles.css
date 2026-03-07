@@ -36,6 +36,14 @@ button.active {
   color: #7c2d12;
 }
 
+.back-link {
+  display: inline-flex;
+  margin-top: 0.75rem;
+  color: #14213d;
+  font-weight: 600;
+  text-decoration: none;
+}
+
 .card {
   background: #ffffff;
   border-radius: 20px;
@@ -79,4 +87,3 @@ button.active {
   color: #9f1239;
   margin-top: 1rem;
 }
-

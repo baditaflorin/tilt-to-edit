@@ -36,6 +36,9 @@ export function App() {
           This example uses the raw hook surface to show permission handling,
           calibration, normalized intent, and confirmation state.
         </p>
+        <a className="back-link" href="../">
+          View all demos
+        </a>
       </header>
 
       <section className="card">
@@ -168,4 +171,3 @@ export function App() {
     </main>
   );
 }
-

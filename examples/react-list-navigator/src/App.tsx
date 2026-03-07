@@ -23,6 +23,9 @@ export function App() {
           This example focuses on discrete vertical navigation with a separate
           confirmation step.
         </p>
+        <a className="back-link" href="../">
+          View all demos
+        </a>
       </header>
 
       <section className="simulator">
@@ -52,4 +55,3 @@ export function App() {
     </main>
   );
 }
-

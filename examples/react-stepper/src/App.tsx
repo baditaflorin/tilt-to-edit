@@ -21,6 +21,9 @@ export function App() {
           This example focuses on discrete editing with left and right tilt plus
           explicit confirmation.
         </p>
+        <a className="back-link" href="../">
+          View all demos
+        </a>
       </header>
 
       <section className="simulator">
@@ -49,4 +52,3 @@ export function App() {
     </main>
   );
 }
-

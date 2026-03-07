@@ -6,6 +6,17 @@ The format is based on Keep a Changelog, and this project aims to follow Semanti
 
 ## [Unreleased]
 
+## [0.2.1] - 2026-03-08
+
+### Added
+
+- GitHub Pages landing page that exposes direct links to the integrated demo and each standalone example.
+- Multi-build Pages packaging script that publishes `/demo/`, `/basic/`, `/stepper/`, and `/list/` under one artifact.
+
+### Changed
+
+- GitHub Pages deployment now uploads a composed static bundle instead of only the single demo app.
+
 ## [0.2.0] - 2026-03-08
 
 ### Added

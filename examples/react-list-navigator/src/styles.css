@@ -26,6 +26,14 @@ button {
   color: #b45309;
 }
 
+.back-link {
+  display: inline-flex;
+  margin-top: 0.75rem;
+  color: #111827;
+  font-weight: 600;
+  text-decoration: none;
+}
+
 .simulator {
   display: grid;
   gap: 0.5rem;
@@ -36,4 +44,3 @@ button {
   display: grid;
   gap: 0.35rem;
 }
-

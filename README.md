@@ -4,7 +4,7 @@
 
 ## Status
 
-`v0.2.0` implements ADR 0001 through ADR 0010.
+`v0.2.0` implements ADR 0001 through ADR 0010. `v0.2.1` adds a GitHub Pages landing page so each demo is directly clickable from the public root URL.
 
 Implemented surfaces:
 
@@ -12,6 +12,14 @@ Implemented surfaces:
 - `@tilt-to-edit/react`: `useTiltToEdit`, `TiltStepper`, `TiltSlider`, and `TiltListNavigator`
 - `examples/*`: runnable consumer apps
 - `apps/demo`: the GitHub Pages demo and containerized demo target
+
+Public Pages entry points:
+
+- `/` landing page with direct demo links
+- `/demo/` integrated demo shell
+- `/basic/` React basic example
+- `/stepper/` React stepper example
+- `/list/` React list navigator example
 
 ## Repository Layout
 
@@ -74,7 +82,7 @@ The demo supports two modes:
 GitHub automation included in this repository:
 
 - `.github/workflows/ci.yml`: runs `npm run verify` on pull requests and pushes to `main`
-- `.github/workflows/demo-pages.yml`: deploys `apps/demo` to GitHub Pages on pushes to `main`
+- `.github/workflows/demo-pages.yml`: deploys a multi-demo Pages bundle with a clickable landing page on pushes to `main`
 - `.github/workflows/demo-image.yml`: publishes `ghcr.io/<owner>/tilt-to-edit-demo` for server-side `docker pull`
 
 ## Change Tracking

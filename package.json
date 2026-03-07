@@ -1,7 +1,7 @@
 {
   "name": "tilt-to-edit",
   "private": true,
-  "version": "0.2.0",
+  "version": "0.2.1",
   "packageManager": "npm@11.6.2",
   "workspaces": [
     "packages/*",
@@ -13,6 +13,7 @@
     "build:packages": "npm run build --workspace @tilt-to-edit/core && npm run build --workspace @tilt-to-edit/react",
     "build:examples": "npm run build --workspace @tilt-to-edit/react-basic-example && npm run build --workspace @tilt-to-edit/react-stepper-example && npm run build --workspace @tilt-to-edit/react-list-navigator-example",
     "build:demo": "npm run build --workspace @tilt-to-edit/demo",
+    "build:pages": "node ./scripts/build-pages.mjs",
     "dev:demo": "npm run dev --workspace @tilt-to-edit/demo",
     "dev:example:basic": "npm run dev --workspace @tilt-to-edit/react-basic-example",
     "dev:example:stepper": "npm run dev --workspace @tilt-to-edit/react-stepper-example",

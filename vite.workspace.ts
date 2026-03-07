@@ -4,8 +4,10 @@ import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 
 export function createWorkspaceViteConfig(base = "/") {
+  const resolvedBase = process.env.TILT_BASE ?? base;
+
   return defineConfig({
-    base,
+    base: resolvedBase,
     plugins: [react()],
     resolve: {
       alias: {
@@ -19,4 +21,3 @@ export function createWorkspaceViteConfig(base = "/") {
     },
   });
 }
-

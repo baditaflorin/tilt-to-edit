@@ -49,6 +49,14 @@ button.active {
   color: #b45309;
 }
 
+.back-link {
+  display: inline-flex;
+  margin-top: 0.75rem;
+  color: #0f172a;
+  font-weight: 600;
+  text-decoration: none;
+}
+
 .mode-switch {
   display: flex;
   flex-wrap: wrap;
