@@ -6,6 +6,16 @@ The format is based on Keep a Changelog, and this project aims to follow Semanti
 
 ## [Unreleased]
 
+## [0.2.2] - 2026-03-08
+
+### Fixed
+
+- Published the generated GitHub Pages bundle at the repository root with `.nojekyll` so `/basic/`, `/stepper/`, `/list/`, and `/demo/` work under the repository's current branch-based Pages setup.
+
+### Added
+
+- `npm run publish:pages:branch` to build the composed Pages artifact and sync it into the branch-served root paths.
+
 ## [0.2.1] - 2026-03-08
 
 ### Added

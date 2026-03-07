@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tilt To Edit Demos</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --ink: #10233d;
+        --muted: #475569;
+        --panel: rgba(255, 255, 255, 0.84);
+        --accent: #c2410c;
+        --line: rgba(15, 23, 42, 0.08);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Avenir Next", "Segoe UI", sans-serif;
+        color: var(--ink);
+        background:
+          radial-gradient(circle at top left, rgba(245, 158, 11, 0.2), transparent 28%),
+          radial-gradient(circle at right 20%, rgba(14, 165, 233, 0.14), transparent 24%),
+          linear-gradient(180deg, #f8fbff 0%, #edf4f7 100%);
+      }
+
+      main {
+        max-width: 1160px;
+        margin: 0 auto;
+        padding: 3rem 1.25rem 4rem;
+      }
+
+      .hero {
+        display: grid;
+        gap: 1rem;
+        margin-bottom: 2rem;
+      }
+
+      .eyebrow {
+        margin: 0;
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        font-size: 0.76rem;
+        color: var(--accent);
+      }
+
+      h1 {
+        margin: 0;
+        max-width: 12ch;
+        font-size: clamp(2.8rem, 7vw, 5rem);
+        line-height: 0.94;
+      }
+
+      .hero p:last-child {
+        max-width: 64ch;
+        color: var(--muted);
+        font-size: 1.05rem;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 1rem;
+      }
+
+      .card {
+        display: grid;
+        gap: 0.75rem;
+        text-decoration: none;
+        color: inherit;
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 24px;
+        padding: 1.4rem;
+        box-shadow: 0 24px 60px rgba(15, 23, 42, 0.08);
+        transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+      }
+
+      .card:hover,
+      .card:focus-visible {
+        transform: translateY(-3px);
+        box-shadow: 0 28px 64px rgba(15, 23, 42, 0.12);
+        border-color: rgba(194, 65, 12, 0.24);
+      }
+
+      .card h2 {
+        margin: 0;
+        font-size: 1.35rem;
+      }
+
+      .card p {
+        margin: 0;
+        color: var(--muted);
+      }
+
+      .kind {
+        font-size: 0.8rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--accent);
+      }
+
+      .card span {
+        font-weight: 600;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <section class="hero">
+        <p class="eyebrow">Tilt To Edit v0.2.2</p>
+        <h1>Choose a demo from the root page</h1>
+        <p>
+          GitHub Pages now publishes the integrated demo and each focused example
+          under one public entry point. Open the experience you want directly
+          from here.
+        </p>
+      </section>
+      <section class="grid">
+        
+        <a class="card" href="./demo/">
+          <p class="kind">Primary demo</p>
+          <h2>Integrated Demo</h2>
+          <p>One shell that combines the sensor console, simulator, stepper, slider, and list navigator.</p>
+          <span>Open demo</span>
+        </a>
+        <a class="card" href="./basic/">
+          <p class="kind">Hook example</p>
+          <h2>React Basic</h2>
+          <p>Permission flow, calibration, normalized intent output, and explicit confirmation state.</p>
+          <span>Open demo</span>
+        </a>
+        <a class="card" href="./stepper/">
+          <p class="kind">Discrete control</p>
+          <h2>React Stepper</h2>
+          <p>Discrete left-right tilt editing with step events and explicit confirmation.</p>
+          <span>Open demo</span>
+        </a>
+        <a class="card" href="./list/">
+          <p class="kind">Navigation example</p>
+          <h2>React List Navigator</h2>
+          <p>Vertical tilt zones for list navigation with separate commit behavior.</p>
+          <span>Open demo</span>
+        </a>
+      </section>
+    </main>
+  </body>
+</html>

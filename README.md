@@ -4,7 +4,7 @@
 
 ## Status
 
-`v0.2.0` implements ADR 0001 through ADR 0010. `v0.2.1` adds a GitHub Pages landing page so each demo is directly clickable from the public root URL.
+`v0.2.0` implements ADR 0001 through ADR 0010. `v0.2.1` adds a GitHub Pages landing page, and `v0.2.2` publishes that static bundle at the repository root so the live Pages URLs work with the repository's current branch-based Pages configuration.
 
 Implemented surfaces:
 
@@ -20,6 +20,8 @@ Public Pages entry points:
 - `/basic/` React basic example
 - `/stepper/` React stepper example
 - `/list/` React list navigator example
+
+The public Pages site is currently served from the committed static bundle at the repository root so it works with the repository's branch-based GitHub Pages configuration.
 
 ## Repository Layout
 
