@@ -1,6 +1,6 @@
 {
   "name": "@tilt-to-edit/embed",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "type": "module",
   "main": "./dist/tilt-to-edit-embed.js",
   "types": "./dist/index.d.ts",
@@ -15,7 +15,7 @@
     "dist"
   ],
   "dependencies": {
-    "@tilt-to-edit/core": "0.3.0"
+    "@tilt-to-edit/core": "0.3.1"
   },
   "scripts": {
     "build": "vite build && tsc -p tsconfig.build.json",

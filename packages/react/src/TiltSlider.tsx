@@ -3,7 +3,15 @@ import { useEffect, useState } from "react";
 import type { TiltSensorBackend } from "@tilt-to-edit/core";
 
 import { useTiltToEdit } from "./useTiltToEdit";
-import { clamp, Controls, Diagnostics, Metrics, Panel, formatStatus } from "./ui";
+import {
+  clamp,
+  Controls,
+  Diagnostics,
+  Metrics,
+  MetricsGroup,
+  Panel,
+  formatStatus,
+} from "./ui";
 
 export interface TiltSliderProps {
   label?: string;
@@ -52,10 +60,12 @@ export function TiltSlider({
       eyebrow="Continuous editing"
       description="Treat tilt like a soft analog control: preview continuously, then explicitly confirm the new value."
     >
-      <Metrics label="Status" value={formatStatus(state)} />
-      <Metrics label="Committed" value={value.toFixed(2)} />
-      <Metrics label="Draft" value={draftValue.toFixed(2)} />
-      <Metrics label="Intent X" value={state.intentVector.x.toFixed(2)} />
+      <MetricsGroup>
+        <Metrics label="Status" value={formatStatus(state)} />
+        <Metrics label="Committed" value={value.toFixed(2)} />
+        <Metrics label="Draft" value={draftValue.toFixed(2)} />
+        <Metrics label="Intent X" value={state.intentVector.x.toFixed(2)} />
+      </MetricsGroup>
       <input
         aria-label={`${label} preview`}
         max={max}

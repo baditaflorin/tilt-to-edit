@@ -3,7 +3,15 @@ import { useEffect, useRef, useState } from "react";
 import type { TiltSensorBackend } from "@tilt-to-edit/core";
 
 import { useTiltToEdit } from "./useTiltToEdit";
-import { clamp, Controls, Diagnostics, Metrics, Panel, formatStatus } from "./ui";
+import {
+  clamp,
+  Controls,
+  Diagnostics,
+  Metrics,
+  MetricsGroup,
+  Panel,
+  formatStatus,
+} from "./ui";
 
 export interface TiltStepperProps {
   label?: string;
@@ -70,10 +78,12 @@ export function TiltStepper({
       eyebrow="Discrete editing"
       description="Lean left or right to step the draft value, then confirm when the number feels right."
     >
-      <Metrics label="Status" value={formatStatus(state)} />
-      <Metrics label="Committed" value={value} />
-      <Metrics label="Draft" value={draftValue} />
-      <Metrics label="Intent X" value={state.intentVector.x.toFixed(2)} />
+      <MetricsGroup>
+        <Metrics label="Status" value={formatStatus(state)} />
+        <Metrics label="Committed" value={value} />
+        <Metrics label="Draft" value={draftValue} />
+        <Metrics label="Intent X" value={state.intentVector.x.toFixed(2)} />
+      </MetricsGroup>
       <Controls
         snapshot={state}
         onRequestPermission={() => {

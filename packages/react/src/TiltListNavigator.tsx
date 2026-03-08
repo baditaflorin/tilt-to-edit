@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import type { TiltSensorBackend } from "@tilt-to-edit/core";
 
 import { useTiltToEdit } from "./useTiltToEdit";
-import { Controls, Diagnostics, Metrics, Panel, formatStatus } from "./ui";
+import { Controls, Diagnostics, Metrics, MetricsGroup, Panel, formatStatus } from "./ui";
 
 export interface TiltListNavigatorProps {
   label?: string;
@@ -59,13 +59,15 @@ export function TiltListNavigator({
       eyebrow="Vertical browse"
       description="Move through the list with stable tilt zones, then confirm separately when the highlight lands where you want."
     >
-      <Metrics label="Status" value={formatStatus(state)} />
-      <Metrics label="Selected" value={items[selectedIndex] ?? "n/a"} />
-      <Metrics label="Highlighted" value={items[highlightedIndex] ?? "n/a"} />
-      <Metrics label="Intent Y" value={state.intentVector.y.toFixed(2)} />
+      <MetricsGroup>
+        <Metrics label="Status" value={formatStatus(state)} />
+        <Metrics label="Selected" value={items[selectedIndex] ?? "n/a"} />
+        <Metrics label="Highlighted" value={items[highlightedIndex] ?? "n/a"} />
+        <Metrics label="Intent Y" value={state.intentVector.y.toFixed(2)} />
+      </MetricsGroup>
       <ol
         style={{
-          marginTop: "16px",
+          marginTop: "0",
           paddingLeft: "0",
           listStyle: "none",
           display: "grid",

@@ -6,6 +6,13 @@ The format is based on Keep a Changelog, and this project aims to follow Semanti
 
 ## [Unreleased]
 
+## [0.3.1] - 2026-03-08
+
+### Changed
+
+- Reworked the shared primitive telemetry layout into a compact metrics grid so status and intent blocks no longer look like selectable menu items.
+- Applied the new instrumentation styling across the stepper, slider, list navigator, and menu selector so control chrome reads differently from the actual interactive rows.
+
 ### Changed
 
 - Added direct GitHub fork/source links to the integrated demo and README, plus maintainer contact details for Florin Badita.

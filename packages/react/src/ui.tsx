@@ -75,6 +75,27 @@ export function Panel({
   );
 }
 
+export function MetricsGroup({ children }: { children: ReactNode }) {
+  return (
+    <div
+      style={{
+        display: "grid",
+        gridTemplateColumns: "repeat(auto-fit, minmax(112px, 1fr))",
+        gap: "8px",
+        marginBottom: "16px",
+        padding: "10px",
+        borderRadius: "20px",
+        background:
+          "linear-gradient(180deg, rgba(2, 6, 23, 0.28), rgba(15, 23, 42, 0.18))",
+        border: "1px solid rgba(125, 211, 252, 0.08)",
+        boxShadow: "inset 0 1px 0 rgba(255, 255, 255, 0.03)",
+      }}
+    >
+      {children}
+    </div>
+  );
+}
+
 export function Metrics({
   label,
   value,
@@ -85,20 +106,40 @@ export function Metrics({
   return (
     <div
       style={{
-        display: "flex",
-        justifyContent: "space-between",
-        gap: "12px",
-        fontFamily: "monospace",
-        alignItems: "center",
-        padding: "11px 12px",
-        borderRadius: "16px",
-        background: "rgba(255, 255, 255, 0.06)",
-        border: "1px solid rgba(255, 255, 255, 0.06)",
-        marginBottom: "10px",
+        display: "grid",
+        gap: "4px",
+        alignContent: "start",
+        minHeight: "62px",
+        padding: "9px 10px",
+        borderRadius: "14px",
+        background:
+          "linear-gradient(180deg, rgba(8, 15, 28, 0.82), rgba(17, 24, 39, 0.48))",
+        border: "1px solid rgba(148, 163, 184, 0.14)",
+        boxShadow: "inset 0 1px 0 rgba(255, 255, 255, 0.04)",
       }}
     >
-      <span style={{ color: "rgba(226, 232, 240, 0.72)" }}>{label}</span>
-      <strong style={{ color: "#fff7ed" }}>{value}</strong>
+      <span
+        style={{
+          color: "rgba(191, 219, 254, 0.74)",
+          textTransform: "uppercase",
+          letterSpacing: "0.12em",
+          fontSize: "0.67rem",
+          fontWeight: 700,
+        }}
+      >
+        {label}
+      </span>
+      <strong
+        style={{
+          color: "#fff7ed",
+          fontFamily: "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace",
+          fontSize: "1rem",
+          lineHeight: 1.2,
+          wordBreak: "break-word",
+        }}
+      >
+        {value}
+      </strong>
     </div>
   );
 }
