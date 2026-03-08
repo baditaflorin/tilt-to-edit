@@ -309,7 +309,7 @@ async function createLandingPage() {
   <body>
     <main>
       <section class="hero">
-        <p class="eyebrow">Tilt To Edit v0.3.1</p>
+        <p class="eyebrow">Tilt To Edit v0.3.2</p>
         <h1>Choose a demo from the root page</h1>
         <p>
           GitHub Pages now publishes the integrated demo and each focused example

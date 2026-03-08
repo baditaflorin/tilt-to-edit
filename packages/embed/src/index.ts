@@ -619,7 +619,7 @@ function resolveConfig(element: HTMLElement, options: TiltEmbedOptions = {}): Re
     value: clamp(initialValue, min, max),
     step: Math.max(options.step ?? parseNumber(element.dataset.tiltStep, 1), 1),
     sensitivity: Math.max(
-      options.sensitivity ?? parseNumber(element.dataset.tiltSensitivity, 20),
+      options.sensitivity ?? parseNumber(element.dataset.tiltSensitivity, max - min),
       1,
     ),
     stepThreshold: Math.max(

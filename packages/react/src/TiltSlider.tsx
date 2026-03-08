@@ -29,7 +29,7 @@ export function TiltSlider({
   value,
   min = 0,
   max = 100,
-  sensitivity = 20,
+  sensitivity,
   backend,
   requireArm = false,
   onCommit,
@@ -41,6 +41,7 @@ export function TiltSlider({
       smoothing: 0.75,
     });
   const [draftValue, setDraftValue] = useState(value);
+  const effectiveSensitivity = sensitivity ?? Math.max(max - min, 1);
 
   useEffect(() => {
     const armGate = requireArm && !state.armed;
@@ -50,9 +51,17 @@ export function TiltSlider({
     }
 
     setDraftValue(
-      clamp(value + state.intentVector.x * sensitivity, min, max),
+      clamp(value + state.intentVector.x * effectiveSensitivity, min, max),
     );
-  }, [max, min, requireArm, sensitivity, state.armed, state.intentVector.x, value]);
+  }, [
+    effectiveSensitivity,
+    max,
+    min,
+    requireArm,
+    state.armed,
+    state.intentVector.x,
+    value,
+  ]);
 
   return (
     <Panel

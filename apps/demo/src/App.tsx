@@ -25,7 +25,7 @@ function LiveSliderMonitor({
   value,
   min = 0,
   max = 100,
-  sensitivity = 20,
+  sensitivity,
 }: {
   backend: TiltSensorBackend;
   value: number;
@@ -38,7 +38,12 @@ function LiveSliderMonitor({
     axisMode: "horizontal",
     smoothing: 0.75,
   });
-  const previewValue = clamp(value + state.intentVector.x * sensitivity, min, max);
+  const effectiveSensitivity = sensitivity ?? Math.max(max - min, 1);
+  const previewValue = clamp(
+    value + state.intentVector.x * effectiveSensitivity,
+    min,
+    max,
+  );
 
   return (
     <div className="aurora-card live-slider-monitor">
@@ -125,7 +130,7 @@ export function App({ backend }: AppProps) {
 
       <header className="hero">
         <div className="hero-copy">
-          <p className="eyebrow">Tilt To Edit v0.3.1</p>
+          <p className="eyebrow">Tilt To Edit v0.3.2</p>
           <h1>Live-device editing that feels more like steering than tapping</h1>
           <p className="hero-text">
             This integrated demo is now live-device-first. Use the motion

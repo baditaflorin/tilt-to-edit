@@ -28,7 +28,7 @@ describe("Demo app", () => {
     await waitFor(() => {
       expect(
         screen.getByRole("slider", { name: "Live slider monitor preview" }),
-      ).toHaveValue("50");
+      ).toHaveValue("82");
     });
   });
 });

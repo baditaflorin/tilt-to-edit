@@ -6,6 +6,13 @@ The format is based on Keep a Changelog, and this project aims to follow Semanti
 
 ## [Unreleased]
 
+## [0.3.2] - 2026-03-08
+
+### Fixed
+
+- Changed the default continuous slider sensitivity from a narrow fixed window to the full configured value span, so left-right tilt can drive the entire slider range by default.
+- Applied the same full-span preview behavior to the live slider monitor in the integrated demo and the browser embed slider path.
+
 ## [0.3.1] - 2026-03-08
 
 ### Changed

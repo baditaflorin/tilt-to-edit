@@ -58,7 +58,7 @@ describe("Tilt primitives", () => {
     });
 
     await waitFor(() => {
-      expect(getMetricValue("Draft")).toBe("58.00");
+      expect(getMetricValue("Draft")).toBe("90.00");
     });
   });
 
@@ -95,7 +95,7 @@ describe("Tilt primitives", () => {
     });
 
     await waitFor(() => {
-      expect(getMetricValue("Draft")).toBe("61.00");
+      expect(getMetricValue("Draft")).toBe("100.00");
     });
   });
 
