@@ -1,7 +1,7 @@
 {
   "name": "@tilt-to-edit/react-list-navigator-example",
   "private": true,
-  "version": "0.2.11",
+  "version": "0.2.12",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -9,8 +9,8 @@
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
-    "@tilt-to-edit/core": "0.2.11",
-    "@tilt-to-edit/react": "0.2.11",
+    "@tilt-to-edit/core": "0.2.12",
+    "@tilt-to-edit/react": "0.2.12",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   }

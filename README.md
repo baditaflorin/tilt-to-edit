@@ -4,7 +4,7 @@
 
 ## Status
 
-`v0.2.0` implements ADR 0001 through ADR 0010. `v0.2.1` adds a GitHub Pages landing page, `v0.2.2` publishes that static bundle at the repository root so the live Pages URLs work with the repository's current branch-based Pages configuration, `v0.2.3` adds QR codes for each live demo on the landing page, `v0.2.4` brings live device mode to the standalone stepper and list examples, `v0.2.5` makes slider preview track tilt by default while keeping explicit confirmation, `v0.2.6` keeps a live slider monitor visible near the top of the integrated demo when you switch away from simulator mode, `v0.2.7` improves iOS device-orientation detection and makes the stepper react to smaller left-right tilt, `v0.2.8` removes simulator UI from the public demos, adds a hybrid menu selector, and refreshes the demo visuals, `v0.2.9` adds a 3D vector-space visualizer with glowing motion beams based on speed and velocity, `v0.2.10` turns that scene into a true 3D browse-and-select menu, and `v0.2.11` slows the browse cadence and redesigns the mobile layout so intermediate items are actually usable.
+`v0.2.0` implements ADR 0001 through ADR 0010. `v0.2.1` adds a GitHub Pages landing page, `v0.2.2` publishes that static bundle at the repository root so the live Pages URLs work with the repository's current branch-based Pages configuration, `v0.2.3` adds QR codes for each live demo on the landing page, `v0.2.4` brings live device mode to the standalone stepper and list examples, `v0.2.5` makes slider preview track tilt by default while keeping explicit confirmation, `v0.2.6` keeps a live slider monitor visible near the top of the integrated demo when you switch away from simulator mode, `v0.2.7` improves iOS device-orientation detection and makes the stepper react to smaller left-right tilt, `v0.2.8` removes simulator UI from the public demos, adds a hybrid menu selector, and refreshes the demo visuals, `v0.2.9` adds a 3D vector-space visualizer with glowing motion beams based on speed and velocity, `v0.2.10` turns that scene into a true 3D browse-and-select menu, `v0.2.11` slows the browse cadence and redesigns the mobile layout so intermediate items are actually usable, and `v0.2.12` expands the list navigator page so it also demonstrates the hybrid menu selector.
 
 Implemented surfaces:
 
@@ -76,7 +76,7 @@ Runnable examples:
 
 - [examples/react-basic/](https://baditaflorin.github.io/tilt-to-edit/basic/): permission flow, calibration, normalized intent, and confirmation state
 - [examples/react-stepper/](https://baditaflorin.github.io/tilt-to-edit/stepper/): discrete step editing with explicit confirmation
-- [examples/react-list-navigator/](https://baditaflorin.github.io/tilt-to-edit/list/): vertical list navigation with stable tilt zones
+- [examples/react-list-navigator/](https://baditaflorin.github.io/tilt-to-edit/list/): compare vertical-only navigation with the hybrid browse-and-select menu on one page
 - [examples/react-menu-selector/](https://baditaflorin.github.io/tilt-to-edit/menu/): browse vertically, tilt right to commit, and tilt left to return to the current selection
 - [examples/react-vector-space/](https://baditaflorin.github.io/tilt-to-edit/space/): browse a slower 3D menu stack with recenter-to-step pacing, cleaner mobile cards, and left-right commit or return
 - [apps/demo/](https://baditaflorin.github.io/tilt-to-edit/demo/): a static demo site for GitHub Pages, plus a container image target for server deployment

@@ -46,7 +46,7 @@ const demos = [
     slug: "list",
     title: "React List Navigator",
     description:
-      "Vertical tilt zones for list navigation with separate commit behavior.",
+      "A comparison page that shows vertical-only navigation alongside the hybrid browse-and-select menu.",
     workspace: "@tilt-to-edit/react-list-navigator-example",
     distDir: resolve("examples/react-list-navigator/dist"),
     kind: "Navigation example",
@@ -299,7 +299,7 @@ async function createLandingPage() {
   <body>
     <main>
       <section class="hero">
-        <p class="eyebrow">Tilt To Edit v0.2.11</p>
+        <p class="eyebrow">Tilt To Edit v0.2.12</p>
         <h1>Choose a demo from the root page</h1>
         <p>
           GitHub Pages now publishes the integrated demo and each focused example

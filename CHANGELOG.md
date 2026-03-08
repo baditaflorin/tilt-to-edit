@@ -6,6 +6,16 @@ The format is based on Keep a Changelog, and this project aims to follow Semanti
 
 ## [Unreleased]
 
+## [0.2.12] - 2026-03-08
+
+### Added
+
+- Expanded the standalone `React List Navigator` page so it now includes the hybrid `TiltMenuSelector` example as a direct comparison on the same route.
+
+### Changed
+
+- Updated the `/list/` demo copy and layout to frame it as a comparison between browse-first navigation and browse-plus-select interaction.
+
 ## [0.2.11] - 2026-03-08
 
 ### Fixed
