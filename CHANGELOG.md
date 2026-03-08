@@ -6,6 +6,16 @@ The format is based on Keep a Changelog, and this project aims to follow Semanti
 
 ## [Unreleased]
 
+## [0.2.6] - 2026-03-08
+
+### Fixed
+
+- Added a compact live slider monitor near the top of the integrated demo so switching from `Simulator` to `Live device` does not hide the only visible slider feedback on mobile.
+
+### Added
+
+- Demo-level regression coverage that verifies live mode renders the top-of-page slider monitor.
+
 ## [0.2.5] - 2026-03-08
 
 ### Fixed

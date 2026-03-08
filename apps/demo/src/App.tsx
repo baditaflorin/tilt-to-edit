@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import {
   createDeviceOrientationBackend,
   createTiltSimulator,
+  type TiltSensorBackend,
 } from "@tilt-to-edit/core";
 import {
   TiltListNavigator,
@@ -12,6 +13,85 @@ import {
 } from "@tilt-to-edit/react";
 
 const LIST_ITEMS = ["Speed", "Brightness", "Contrast", "Theme"];
+
+function clamp(value: number, min: number, max: number) {
+  return Math.min(max, Math.max(min, value));
+}
+
+function LiveSliderMonitor({
+  backend,
+  value,
+  min = 0,
+  max = 100,
+  sensitivity = 20,
+}: {
+  backend: TiltSensorBackend;
+  value: number;
+  min?: number;
+  max?: number;
+  sensitivity?: number;
+}) {
+  const { state, requestPermission, calibrate } = useTiltToEdit({
+    backend,
+    axisMode: "horizontal",
+    smoothing: 0.75,
+  });
+  const previewValue = clamp(value + state.intentVector.x * sensitivity, min, max);
+
+  return (
+    <div className="card live-slider-monitor">
+      <div className="live-slider-header">
+        <div>
+          <h2>Live Slider Monitor</h2>
+          <p>Keep this visible while you test live tilt on mobile.</p>
+        </div>
+        <strong>{state.status}</strong>
+      </div>
+      <div className="live-slider-metrics">
+        <div>
+          <span>Intent X</span>
+          <strong>{state.intentVector.x.toFixed(2)}</strong>
+        </div>
+        <div>
+          <span>Preview</span>
+          <strong>{previewValue.toFixed(2)}</strong>
+        </div>
+        <div>
+          <span>Committed</span>
+          <strong>{value.toFixed(2)}</strong>
+        </div>
+      </div>
+      <input
+        aria-label="Live slider monitor preview"
+        max={max}
+        min={min}
+        readOnly
+        type="range"
+        value={previewValue}
+      />
+      <div className="actions">
+        {state.status === "needs-permission" ? (
+          <button
+            onClick={() => {
+              void requestPermission();
+            }}
+            type="button"
+          >
+            Enable tilt
+          </button>
+        ) : null}
+        <button
+          onClick={() => {
+            calibrate();
+          }}
+          type="button"
+        >
+          Calibrate
+        </button>
+      </div>
+    </div>
+  );
+}
 
 export function App() {
   const [mode, setMode] = useState<"simulator" | "live">("simulator");
@@ -41,7 +121,7 @@ export function App() {
     <main className="page">
       <header className="hero">
         <div>
-          <p className="eyebrow">Tilt To Edit v0.2.5</p>
+          <p className="eyebrow">Tilt To Edit v0.2.6</p>
           <h1>Device tilt as intentional editing input</h1>
           <p>
             The demo runs on GitHub Pages and supports both live mobile sensors
@@ -192,6 +272,10 @@ export function App() {
             </p>
           )}
         </div>
+
+        {mode === "live" ? (
+          <LiveSliderMonitor backend={backend} value={sliderValue} />
+        ) : null}
       </section>
 
       <section className="grid">
