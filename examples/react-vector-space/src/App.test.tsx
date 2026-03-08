@@ -20,7 +20,7 @@ describe("React Vector Space example", () => {
       screen.queryByRole("button", { name: "Simulator" }),
     ).not.toBeInTheDocument();
     expect(
-      screen.getByRole("heading", { name: "Floating focus stack" }),
+      screen.getByRole("heading", { name: "Precision stack" }),
     ).toBeInTheDocument();
   });
 
@@ -49,5 +49,33 @@ describe("React Vector Space example", () => {
     });
 
     expect(screen.getByTestId("vector-orb")).toBeInTheDocument();
+  });
+
+  it("requires recentering before moving to the next item", async () => {
+    const simulator = createTiltSimulator();
+
+    render(<App backend={simulator.backend} />);
+
+    act(() => {
+      simulator.emit({ beta: 0, gamma: 0, timestamp: 0 });
+      simulator.emit({ beta: 20, gamma: 0, timestamp: 10 });
+      simulator.emit({ beta: 24, gamma: 0, timestamp: 60 });
+    });
+
+    await waitFor(() => {
+      expect(getMetricValue("Highlighted")).toBe("Ambient audio");
+    });
+
+    act(() => {
+      simulator.emit({ beta: 0, gamma: 0, timestamp: 140 });
+    });
+
+    act(() => {
+      simulator.emit({ beta: 20, gamma: 0, timestamp: 620 });
+    });
+
+    await waitFor(() => {
+      expect(getMetricValue("Highlighted")).toBe("Focus mode");
+    });
   });
 });

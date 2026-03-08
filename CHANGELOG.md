@@ -6,6 +6,13 @@ The format is based on Keep a Changelog, and this project aims to follow Semanti
 
 ## [Unreleased]
 
+## [0.2.11] - 2026-03-08
+
+### Fixed
+
+- Reworked `React Vector Space` so browsing no longer races to the ends of the menu; it now uses recenter-to-step pacing for more reliable intermediate selections.
+- Rebuilt the `/space/` scene with a cleaner mobile-first card stack and reduced perspective distortion so the menu reads clearly on phones.
+
 ## [0.2.10] - 2026-03-08
 
 ### Changed

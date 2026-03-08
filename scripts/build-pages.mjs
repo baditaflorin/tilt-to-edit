@@ -66,7 +66,7 @@ const demos = [
     slug: "space",
     title: "React Vector Space",
     description:
-      "A 3D menu stack that lets you browse vertically and commit or return with left-right tilt, wrapped in glowing motion vectors.",
+      "A slower, mobile-first 3D menu stack with stable browse zones, readable cards, and glowing motion vectors.",
     workspace: "@tilt-to-edit/react-vector-space-example",
     distDir: resolve("examples/react-vector-space/dist"),
     kind: "3D menu",
@@ -299,7 +299,7 @@ async function createLandingPage() {
   <body>
     <main>
       <section class="hero">
-        <p class="eyebrow">Tilt To Edit v0.2.10</p>
+        <p class="eyebrow">Tilt To Edit v0.2.11</p>
         <h1>Choose a demo from the root page</h1>
         <p>
           GitHub Pages now publishes the integrated demo and each focused example

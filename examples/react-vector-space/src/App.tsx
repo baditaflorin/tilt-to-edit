@@ -30,6 +30,13 @@ const MENU_ITEMS = [
   "Focus mode",
 ];
 
+const BROWSE_TRIGGER = 0.48;
+const BROWSE_RESET = 0.18;
+const ACTION_TRIGGER = 0.58;
+const ACTION_RESET = 0.22;
+const BROWSE_COOLDOWN_MS = 420;
+const ACTION_COOLDOWN_MS = 520;
+
 export interface AppProps {
   backend?: TiltSensorBackend;
 }
@@ -62,16 +69,17 @@ export function App({ backend }: AppProps) {
     useTiltToEdit({
       backend: resolvedBackend,
       axisMode: "both",
-      deadZone: 1,
-      smoothing: 0.72,
-      continuousRange: 18,
-      stepThreshold: 8,
+      deadZone: 2,
+      smoothing: 0.84,
+      continuousRange: 24,
     });
   const previousRef = useRef<{ x: number; y: number; timestamp: number } | null>(
     null,
   );
-  const lastVerticalSequenceRef = useRef(state.stepEvents.y.sequence);
-  const lastHorizontalSequenceRef = useRef(state.stepEvents.x.sequence);
+  const browseLockedRef = useRef(false);
+  const actionLockedRef = useRef(false);
+  const lastBrowseAtRef = useRef(-Infinity);
+  const lastActionAtRef = useRef(-Infinity);
   const [motion, setMotion] = useState<MotionState>({
     speed: 0,
     velocityX: 0,
@@ -81,39 +89,56 @@ export function App({ backend }: AppProps) {
   const [trail, setTrail] = useState<TrailPoint[]>([]);
 
   useEffect(() => {
-    if (state.stepEvents.y.sequence === lastVerticalSequenceRef.current) {
+    const sample = state.lastSample;
+    if (!sample) {
       return;
     }
 
-    lastVerticalSequenceRef.current = state.stepEvents.y.sequence;
-    if (state.stepEvents.y.direction === 0) {
-      return;
+    const timestamp = sample.timestamp;
+    const { x, y } = state.intentVector;
+
+    if (browseLockedRef.current && Math.abs(y) <= BROWSE_RESET) {
+      browseLockedRef.current = false;
     }
 
-    setLastAction("browse");
-    setHighlightedIndex((currentIndex) => {
-      const nextIndex = currentIndex + state.stepEvents.y.direction;
-      return Math.min(Math.max(nextIndex, 0), MENU_ITEMS.length - 1);
-    });
-  }, [state.stepEvents.y.direction, state.stepEvents.y.sequence]);
-
-  useEffect(() => {
-    if (state.stepEvents.x.sequence === lastHorizontalSequenceRef.current) {
-      return;
+    if (actionLockedRef.current && Math.abs(x) <= ACTION_RESET) {
+      actionLockedRef.current = false;
     }
 
-    lastHorizontalSequenceRef.current = state.stepEvents.x.sequence;
-    if (state.stepEvents.x.direction === 0) {
+    const verticalDominant = Math.abs(y) > Math.abs(x) + 0.12;
+    const browseReady =
+      !browseLockedRef.current &&
+      verticalDominant &&
+      Math.abs(y) >= BROWSE_TRIGGER &&
+      timestamp - lastBrowseAtRef.current >= BROWSE_COOLDOWN_MS;
+
+    if (browseReady) {
+      const direction = y > 0 ? 1 : -1;
+      browseLockedRef.current = true;
+      lastBrowseAtRef.current = timestamp;
+      setLastAction("browse");
+      setHighlightedIndex((currentIndex) =>
+        clamp(currentIndex + direction, 0, MENU_ITEMS.length - 1),
+      );
       return;
     }
 
     const horizontalDominant =
-      Math.abs(state.intentVector.x) > Math.abs(state.intentVector.y) + 0.08;
-    if (!horizontalDominant) {
+      Math.abs(x) > Math.abs(y) + 0.18 && Math.abs(y) <= 0.32;
+    const actionReady =
+      !actionLockedRef.current &&
+      horizontalDominant &&
+      Math.abs(x) >= ACTION_TRIGGER &&
+      timestamp - lastActionAtRef.current >= ACTION_COOLDOWN_MS;
+
+    if (!actionReady) {
       return;
     }
 
-    if (state.stepEvents.x.direction > 0) {
+    actionLockedRef.current = true;
+    lastActionAtRef.current = timestamp;
+
+    if (x > 0) {
       confirm();
       setSelectedIndex(highlightedIndex);
       setLastAction("committed");
@@ -128,8 +153,7 @@ export function App({ backend }: AppProps) {
     selectedIndex,
     state.intentVector.x,
     state.intentVector.y,
-    state.stepEvents.x.direction,
-    state.stepEvents.x.sequence,
+    state.lastSample,
   ]);
 
   useEffect(() => {
@@ -161,7 +185,7 @@ export function App({ backend }: AppProps) {
       id: current.timestamp,
       x: current.x,
       y: current.y,
-      z: 24 + normalizedSpeed * 110,
+      z: 20 + normalizedSpeed * 70,
       speed,
       velocityX,
       velocityY,
@@ -174,45 +198,40 @@ export function App({ backend }: AppProps) {
       velocityY,
       hue,
     });
-    setTrail((currentTrail) => [...currentTrail.slice(-11), trailPoint]);
+    setTrail((currentTrail) => [...currentTrail.slice(-8), trailPoint]);
   }, [state.intentVector.x, state.intentVector.y, state.lastSample?.timestamp]);
 
   const speedRatio = clamp(motion.speed / 8, 0, 1);
-  const intentMagnitude = clamp(state.intentVector.magnitude, 0, 1.5);
   const chamber = {
-    orbX: state.intentVector.x * 132,
-    orbY: state.intentVector.y * 114,
-    orbZ: 26 + speedRatio * 108,
-    intentLength: 34 + intentMagnitude * 134,
-    intentAngle: toDegrees(
-      Math.atan2(state.intentVector.y, state.intentVector.x || 0.0001),
+    orbX: state.intentVector.x * 92,
+    orbY: 172 + state.intentVector.y * 28,
+    orbZ: 18 + speedRatio * 44,
+    beamAngle: toDegrees(
+      Math.atan2(motion.velocityY || 0.0001, motion.velocityX || 0.0001),
     ),
-    velocityLength: 44 + speedRatio * 112,
-    velocityAngle: toDegrees(
-      Math.atan2(motion.velocityY, motion.velocityX || 0.0001),
-    ),
-    glowColor: `hsla(${motion.hue}, 100%, ${66 + speedRatio * 12}%, 0.95)`,
-    beamColor: `hsla(${motion.hue}, 100%, ${62 + speedRatio * 14}%, ${0.45 + speedRatio * 0.4})`,
-    shadowColor: `hsla(${motion.hue}, 100%, 60%, ${0.18 + speedRatio * 0.26})`,
-    verticalGlow: clamp(Math.abs(state.intentVector.y), 0.18, 1),
-    commitGlow: clamp(Math.max(state.intentVector.x, 0), 0.14, 1),
-    returnGlow: clamp(Math.max(-state.intentVector.x, 0), 0.14, 1),
+    beamLength: 34 + speedRatio * 90,
+    glowColor: `hsla(${motion.hue}, 100%, ${68 + speedRatio * 10}%, 0.95)`,
+    beamColor: `hsla(${motion.hue}, 100%, ${60 + speedRatio * 18}%, ${0.28 + speedRatio * 0.44})`,
+    shadowColor: `hsla(${motion.hue}, 100%, 60%, ${0.16 + speedRatio * 0.28})`,
+    browseGlow: clamp(Math.abs(state.intentVector.y), 0.12, 1),
+    commitGlow: clamp(Math.max(state.intentVector.x, 0), 0.1, 1),
+    returnGlow: clamp(Math.max(-state.intentVector.x, 0), 0.1, 1),
   };
 
   return (
     <main className="shell">
-      <div className="nebula nebula-a" aria-hidden="true" />
-      <div className="nebula nebula-b" aria-hidden="true" />
-      <div className="nebula nebula-c" aria-hidden="true" />
+      <div className="ambient ambient-a" aria-hidden="true" />
+      <div className="ambient ambient-b" aria-hidden="true" />
+      <div className="ambient ambient-c" aria-hidden="true" />
 
       <header className="hero">
-        <div>
+        <div className="hero-copy-wrap">
           <p className="eyebrow">3D Hybrid Control</p>
           <h1>React Vector Space</h1>
           <p className="hero-copy">
-            This version turns the vector chamber into a spatial menu: tilt up
-            and down to browse the stack, lean right to keep the focused item,
-            and lean left to snap back to the committed choice.
+            A mobile-first spatial menu with slower browse cadence: one vertical
+            lean moves one card, then you recenter before the next move. Right
+            commits the focused item. Left returns to the live selection.
           </p>
           <a className="back-link" href="../">
             View all demos
@@ -220,12 +239,12 @@ export function App({ backend }: AppProps) {
         </div>
 
         <section className="ritual-panel">
-          <p className="micro-label">Gesture language</p>
+          <p className="micro-label">How it behaves</p>
           <ol>
-            <li>Tap <strong>Enable tilt</strong>.</li>
-            <li>Allow <strong>Motion &amp; Orientation Access</strong>.</li>
-            <li>Tap <strong>Calibrate</strong> in a neutral pose.</li>
-            <li>Browse vertically, then lean right to commit or left to return.</li>
+            <li>Tap <strong>Enable tilt</strong> if needed, then calibrate.</li>
+            <li>Lean gently up or down for a single move.</li>
+            <li>Re-center to unlock the next item.</li>
+            <li>Lean right to commit, or left to return.</li>
           </ol>
           <div className="action-row">
             {state.status === "needs-permission" ? (
@@ -274,132 +293,133 @@ export function App({ backend }: AppProps) {
           <div className="card-head">
             <div>
               <p className="micro-label">Spatial menu</p>
-              <h2>Floating focus stack</h2>
+              <h2>Precision stack</h2>
             </div>
             <strong className={`status-badge status-${state.status}`}>{state.status}</strong>
           </div>
 
           <p className="space-copy">
-            The center lane is browse. The right gate commits. The left gate
-            restores the current selection. Motion speed changes the glow so the
-            gesture feels alive instead of purely mechanical.
+            The center column is tuned for deliberate browsing. The side wings
+            only light up when your phone is stable enough for commit or return.
           </p>
 
           <div className="space-stage">
-            <div className="gate-label gate-left">Return left</div>
-            <div className="gate-label gate-right">Commit right</div>
+            <div className="scene-label label-left">Return</div>
+            <div className="scene-label label-center">Re-center between moves</div>
+            <div className="scene-label label-right">Commit</div>
 
             <div className="space-room">
-              <div className="plane floor-grid" />
-              <div className="plane back-grid" />
-              <div className="plane side-grid" />
+              <div className="space-backdrop" />
+              <div className="space-floor" />
 
-              <div className="rail rail-vertical">
-                <span>Browse</span>
-              </div>
               <div
-                className="rail rail-left"
+                className="focus-column"
                 style={{
-                  opacity: chamber.returnGlow,
-                  boxShadow: `0 0 34px rgba(244, 114, 182, ${0.18 + chamber.returnGlow * 0.48})`,
-                }}
-              >
-                <span>Return</span>
-              </div>
-              <div
-                className="rail rail-right"
-                style={{
-                  opacity: chamber.commitGlow,
-                  boxShadow: `0 0 34px rgba(56, 189, 248, ${0.18 + chamber.commitGlow * 0.48})`,
-                }}
-              >
-                <span>Commit</span>
-              </div>
-
-              <div className="origin-core" />
-              <div
-                className="intent-beam"
-                style={{
-                  width: `${chamber.intentLength}px`,
-                  transform: `translate3d(0, 0, 18px) rotate(${chamber.intentAngle}deg)`,
-                  boxShadow: `0 0 28px ${chamber.beamColor}`,
-                  background: `linear-gradient(90deg, rgba(255,255,255,0.08), ${chamber.beamColor})`,
+                  boxShadow: `0 0 80px rgba(96, 165, 250, ${0.1 + chamber.browseGlow * 0.18})`,
                 }}
               />
               <div
-                className="velocity-beam"
+                className="action-wing wing-left"
                 style={{
-                  width: `${chamber.velocityLength}px`,
-                  transform: `translate3d(${chamber.orbX}px, ${chamber.orbY}px, ${chamber.orbZ}px) rotate(${chamber.velocityAngle}deg)`,
-                  boxShadow: `0 0 34px ${chamber.glowColor}`,
-                  background: `linear-gradient(90deg, rgba(255,255,255,0.04), ${chamber.glowColor})`,
+                  opacity: chamber.returnGlow,
+                  boxShadow: `0 0 44px rgba(244, 114, 182, ${0.16 + chamber.returnGlow * 0.36})`,
+                }}
+              />
+              <div
+                className="action-wing wing-right"
+                style={{
+                  opacity: chamber.commitGlow,
+                  boxShadow: `0 0 44px rgba(56, 189, 248, ${0.16 + chamber.commitGlow * 0.36})`,
+                }}
+              />
+
+              <div className="focus-halo" />
+
+              {MENU_ITEMS.map((item, index) => {
+                const relative = index - highlightedIndex;
+                const isHighlighted = index === highlightedIndex;
+                const isSelected = index === selectedIndex;
+                const y = relative * 98 - state.intentVector.y * 22;
+                const z = 140 - Math.abs(relative) * 72;
+                const x = isHighlighted ? state.intentVector.x * 18 : relative * 8;
+                const scale = clamp(1.06 - Math.abs(relative) * 0.12, 0.58, 1.06);
+                const opacity = clamp(1 - Math.abs(relative) * 0.22, 0.22, 1);
+                const blur = Math.abs(relative) * 0.6;
+                const hue = isHighlighted
+                  ? motion.hue
+                  : (motion.hue + relative * 20 + 360) % 360;
+                const summary = isSelected
+                  ? "Current live choice"
+                  : isHighlighted
+                    ? "Ready to commit"
+                    : relative < 0
+                      ? `${Math.abs(relative)} step${Math.abs(relative) > 1 ? "s" : ""} above`
+                      : `${relative} step${Math.abs(relative) > 1 ? "s" : ""} below`;
+
+                return (
+                  <article
+                    key={item}
+                    className={`menu-card${isHighlighted ? " is-highlighted" : ""}${isSelected ? " is-selected" : ""}`}
+                    style={{
+                      opacity,
+                      filter: `blur(${blur}px) saturate(${1 - Math.min(blur * 0.08, 0.24)})`,
+                      transform: `translate(-50%, -50%) translate3d(${x}px, ${y}px, ${z}px) rotateX(${relative * -4}deg) rotateY(${state.intentVector.x * 6}deg) scale(${scale})`,
+                      borderColor: isHighlighted
+                        ? `hsla(${hue}, 100%, 76%, 0.86)`
+                        : isSelected
+                          ? "rgba(245, 158, 11, 0.64)"
+                          : "rgba(255, 255, 255, 0.08)",
+                      boxShadow: isHighlighted
+                        ? `0 24px 68px hsla(${hue}, 100%, 60%, 0.22), 0 0 44px hsla(${hue}, 100%, 66%, 0.22)`
+                        : isSelected
+                          ? "0 22px 60px rgba(245, 158, 11, 0.18)"
+                          : "0 18px 44px rgba(5, 10, 24, 0.22)",
+                    }}
+                  >
+                    <div className="menu-card-head">
+                      <span className="menu-card-title">{item}</span>
+                      {isSelected ? (
+                        <span className="menu-pill is-selected-pill">Live</span>
+                      ) : isHighlighted ? (
+                        <span className="menu-pill is-highlighted-pill">Focus</span>
+                      ) : null}
+                    </div>
+                    <p className="menu-card-copy">{summary}</p>
+                  </article>
+                );
+              })}
+
+              <div
+                className="motion-line"
+                style={{
+                  width: `${chamber.beamLength}px`,
+                  transform: `translate(-50%, -50%) translate3d(${chamber.orbX}px, ${chamber.orbY}px, ${chamber.orbZ}px) rotate(${chamber.beamAngle}deg)`,
+                  boxShadow: `0 0 24px ${chamber.beamColor}`,
+                  background: `linear-gradient(90deg, rgba(255,255,255,0.04), ${chamber.beamColor})`,
                 }}
               />
               {trail.map((point, index) => {
                 const opacity = (index + 1) / trail.length;
-                const scale = 0.35 + opacity * 0.85;
+                const scale = 0.42 + opacity * 0.76;
                 return (
                   <div
                     key={point.id}
                     className="trail-point"
                     style={{
-                      transform: `translate3d(${point.x * 132}px, ${point.y * 114}px, ${point.z}px) scale(${scale})`,
-                      background: `hsla(${point.hue}, 100%, 68%, ${0.28 + opacity * 0.5})`,
-                      boxShadow: `0 0 ${14 + opacity * 22}px hsla(${point.hue}, 100%, 64%, ${0.18 + opacity * 0.46})`,
+                      transform: `translate(-50%, -50%) translate3d(${point.x * 92}px, ${172 + point.y * 28}px, ${point.z}px) scale(${scale})`,
+                      background: `hsla(${point.hue}, 100%, 68%, ${0.24 + opacity * 0.44})`,
+                      boxShadow: `0 0 ${12 + opacity * 18}px hsla(${point.hue}, 100%, 64%, ${0.16 + opacity * 0.34})`,
                     }}
                   />
-                );
-              })}
-              {MENU_ITEMS.map((item, index) => {
-                const relative = index - highlightedIndex;
-                const isHighlighted = index === highlightedIndex;
-                const isSelected = index === selectedIndex;
-                const depth = 86 - Math.abs(relative) * 56;
-                const x = (isHighlighted ? state.intentVector.x * 34 : 0) + relative * 5;
-                const y = relative * 92 - state.intentVector.y * 38;
-                const scale = clamp(1.04 - Math.abs(relative) * 0.08, 0.72, 1.08);
-                const opacity = clamp(1 - Math.abs(relative) * 0.18, 0.3, 1);
-                const hue = isHighlighted
-                  ? motion.hue
-                  : (motion.hue + relative * 18 + 360) % 360;
-
-                return (
-                  <article
-                    key={item}
-                    className={`menu-node${isHighlighted ? " is-highlighted" : ""}${isSelected ? " is-selected" : ""}`}
-                    style={{
-                      opacity,
-                      transform: `translate3d(${x}px, ${y}px, ${depth}px) rotateY(${state.intentVector.x * 10 - relative * 5}deg) rotateX(${relative * -4}deg) scale(${scale})`,
-                      borderColor: isHighlighted
-                        ? `hsla(${hue}, 100%, 74%, 0.8)`
-                        : isSelected
-                          ? "rgba(251, 191, 36, 0.54)"
-                          : "rgba(255, 255, 255, 0.08)",
-                      boxShadow: isHighlighted
-                        ? `0 24px 60px hsla(${hue}, 100%, 62%, 0.24), 0 0 40px hsla(${hue}, 100%, 64%, 0.24)`
-                        : isSelected
-                          ? "0 24px 60px rgba(251, 191, 36, 0.18)"
-                          : "0 20px 48px rgba(5, 10, 24, 0.22)",
-                    }}
-                  >
-                    <span className="menu-node-title">{item}</span>
-                    <span className="menu-node-meta">
-                      {isSelected
-                        ? "Selected"
-                        : isHighlighted
-                          ? "Focus"
-                          : `${Math.abs(relative)} away`}
-                    </span>
-                  </article>
                 );
               })}
               <div
                 className="vector-orb"
                 data-testid="vector-orb"
                 style={{
-                  transform: `translate3d(${chamber.orbX}px, ${chamber.orbY}px, ${chamber.orbZ}px)`,
+                  transform: `translate(-50%, -50%) translate3d(${chamber.orbX}px, ${chamber.orbY}px, ${chamber.orbZ}px)`,
                   background: `radial-gradient(circle at 30% 30%, #ffffff 0%, ${chamber.glowColor} 34%, rgba(10, 16, 30, 0.76) 100%)`,
-                  boxShadow: `0 0 34px ${chamber.glowColor}, 0 0 80px ${chamber.shadowColor}`,
+                  boxShadow: `0 0 34px ${chamber.glowColor}, 0 0 72px ${chamber.shadowColor}`,
                 }}
               />
             </div>
@@ -409,8 +429,8 @@ export function App({ backend }: AppProps) {
         <section className="metrics-card">
           <div className="card-head">
             <div>
-              <p className="micro-label">Menu telemetry</p>
-              <h2>State</h2>
+              <p className="micro-label">Control state</p>
+              <h2>Telemetry</h2>
             </div>
           </div>
 
@@ -443,14 +463,6 @@ export function App({ backend }: AppProps) {
               <strong>{motion.speed.toFixed(2)}</strong>
             </div>
             <div>
-              <span>Velocity X</span>
-              <strong>{formatSigned(motion.velocityX)}</strong>
-            </div>
-            <div>
-              <span>Velocity Y</span>
-              <strong>{formatSigned(motion.velocityY)}</strong>
-            </div>
-            <div>
               <span>Trail</span>
               <strong>{trail.length}</strong>
             </div>
@@ -463,15 +475,15 @@ export function App({ backend }: AppProps) {
           <div className="legend">
             <div>
               <span className="legend-swatch browse" />
-              <p>Vertical motion walks the stack one card at a time.</p>
+              <p>One vertical lean equals one move. Re-center before the next.</p>
             </div>
             <div>
               <span className="legend-swatch commit" />
-              <p>Right tilt commits the focused card to the live selection.</p>
+              <p>The commit wing only brightens when right tilt is stable enough.</p>
             </div>
             <div>
               <span className="legend-swatch return" />
-              <p>Left tilt throws focus back to the last committed card.</p>
+              <p>Left tilt safely snaps focus back to the committed choice.</p>
             </div>
           </div>
 
