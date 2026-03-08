@@ -5,8 +5,10 @@ import { createTiltSimulator } from "@tilt-to-edit/core";
 
 import { TiltListNavigator } from "./TiltListNavigator";
 import { TiltMenuSelector } from "./TiltMenuSelector";
+import { TiltSettingsAdjuster } from "./TiltSettingsAdjuster";
 import { TiltSlider } from "./TiltSlider";
 import { TiltStepper } from "./TiltStepper";
+import { TiltSubmenuEditor } from "./TiltSubmenuEditor";
 
 function getMetricValue(label: string) {
   return screen.getByText(label).parentElement?.querySelector("strong")?.textContent;
@@ -161,5 +163,105 @@ describe("Tilt primitives", () => {
       expect(getMetricValue("Selected")).toBe("Beta");
       expect(getMetricValue("Action")).toBe("committed");
     });
+  });
+
+  it("browses settings and adjusts the focused value in place", async () => {
+    const simulator = createTiltSimulator();
+    const onChange = vi.fn();
+
+    render(
+      <TiltSettingsAdjuster
+        backend={simulator.backend}
+        items={[
+          { label: "Brightness", value: 64, min: 0, max: 100, step: 4, unit: "%" },
+          { label: "Contrast", value: 48, min: 0, max: 100, step: 3, unit: "%" },
+        ]}
+        onChange={onChange}
+      />,
+    );
+
+    act(() => {
+      simulator.emit({ beta: 0, gamma: 0, timestamp: 0 });
+      simulator.emit({ beta: 20, gamma: 0, timestamp: 10 });
+    });
+
+    await waitFor(() => {
+      expect(getMetricValue("Focused")).toBe("Contrast");
+    });
+
+    act(() => {
+      simulator.emit({ beta: 0, gamma: 20, timestamp: 220 });
+    });
+
+    await waitFor(() => {
+      expect(getMetricValue("Value")).toBe("51 %");
+      expect(getMetricValue("Action")).toBe("increase");
+    });
+
+    expect(onChange).toHaveBeenCalledTimes(1);
+  });
+
+  it("enters a submenu editor and adjusts the active value", async () => {
+    const simulator = createTiltSimulator();
+    const onChange = vi.fn();
+
+    function Wrapper() {
+      const [sections, setSections] = useState([
+        {
+          label: "Display",
+          items: [
+            { label: "Brightness", value: 72, min: 0, max: 100, step: 4, unit: "%" },
+            { label: "Contrast", value: 46, min: 0, max: 100, step: 3, unit: "%" },
+          ],
+        },
+        {
+          label: "Audio",
+          items: [{ label: "Volume", value: 34, min: 0, max: 100, step: 4, unit: "%" }],
+        },
+      ]);
+
+      return (
+        <TiltSubmenuEditor
+          backend={simulator.backend}
+          onChange={(event) => {
+            setSections(event.sections);
+            onChange(event);
+          }}
+          sections={sections}
+        />
+      );
+    }
+
+    render(<Wrapper />);
+
+    act(() => {
+      simulator.emit({ beta: 0, gamma: 0, timestamp: 0 });
+      simulator.emit({ beta: 0, gamma: 20, timestamp: 10 });
+    });
+
+    await waitFor(() => {
+      expect(getMetricValue("Mode")).toBe("items");
+    });
+
+    act(() => {
+      simulator.emit({ beta: 0, gamma: 0, timestamp: 160 });
+      simulator.emit({ beta: 0, gamma: 20, timestamp: 220 });
+    });
+
+    await waitFor(() => {
+      expect(getMetricValue("Mode")).toBe("editor");
+    });
+
+    act(() => {
+      simulator.emit({ beta: -20, gamma: 0, timestamp: 430 });
+    });
+
+    await waitFor(() => {
+      expect(getMetricValue("Mode")).toBe("editor");
+      expect(getMetricValue("Value")).toBe("76 %");
+      expect(getMetricValue("Action")).toBe("increase value");
+    });
+
+    expect(onChange).toHaveBeenCalledTimes(1);
   });
 });

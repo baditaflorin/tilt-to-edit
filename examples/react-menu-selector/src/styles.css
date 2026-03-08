@@ -21,7 +21,7 @@ button {
 
 .shell {
   position: relative;
-  max-width: 760px;
+  max-width: 1100px;
   margin: 0 auto;
   padding: 3.25rem 1.25rem 4rem;
 }
@@ -83,4 +83,34 @@ h1 {
 
 .hero-card h2 {
   margin: 0.3rem 0 0.5rem;
+}
+
+.comparison-grid {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1.35rem;
+  align-items: start;
+}
+
+.comparison-copy {
+  padding: 1.15rem 1.2rem;
+  border-radius: 22px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: linear-gradient(145deg, rgba(11, 24, 42, 0.68), rgba(24, 20, 48, 0.48));
+  box-shadow: 0 20px 48px rgba(7, 11, 23, 0.24);
+}
+
+.comparison-copy h2 {
+  margin: 0.3rem 0 0.45rem;
+}
+
+.comparison-copy p:last-child {
+  margin-bottom: 0;
+  color: rgba(226, 232, 240, 0.78);
+}
+
+@media (min-width: 960px) {
+  .comparison-grid {
+    grid-template-columns: 0.38fr 0.62fr;
+  }
 }

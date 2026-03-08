@@ -19,6 +19,12 @@ describe("Demo app", () => {
     expect(
       screen.getByRole("link", { name: "Fork on GitHub" }),
     ).toHaveAttribute("href", "https://github.com/baditaflorin/tilt-to-edit");
+    expect(
+      screen.getByRole("heading", { name: "Tilt Settings Adjuster" }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: "Tilt Submenu Editor" }),
+    ).toBeInTheDocument();
 
     act(() => {
       simulator.emit({ beta: 0, gamma: 0, timestamp: 0 });

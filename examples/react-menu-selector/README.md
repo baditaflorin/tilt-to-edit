@@ -1,7 +1,7 @@
 # React Menu Selector Example
 
-This example demonstrates a browse-and-select interaction:
+This example now compares three interaction styles:
 
-- tilt up and down to move the highlight
-- tilt right to commit the focused item
-- tilt left to return to the currently committed item
+- `TiltMenuSelector` for browse and commit
+- `TiltSettingsAdjuster` for direct value changes on the focused row
+- `TiltSubmenuEditor` for a three-part menu with explicit drill-in and back-out behavior

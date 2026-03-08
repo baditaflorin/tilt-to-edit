@@ -15,8 +15,8 @@ const demos = [
   {
     slug: "demo",
     title: "Integrated Demo",
-    description:
-      "One live-device shell that combines telemetry, stepper, slider, list navigation, hybrid menu selection, and a scene remix that swaps backdrops and characters.",
+        description:
+      "One live-device shell that combines telemetry, steppers, sliders, list navigation, direct setting adjustment, hierarchical submenus, and a scene remix that swaps backdrops and characters.",
     workspace: "@tilt-to-edit/demo",
     distDir: resolve("apps/demo/dist"),
     kind: "Primary demo",
@@ -66,7 +66,7 @@ const demos = [
     slug: "menu",
     title: "React Menu Selector",
     description:
-      "Browse vertically, tilt right to commit, and tilt left to return to the current selection.",
+      "Compare browse-and-commit, direct in-place value adjustment, and a three-part submenu editor on one route.",
     workspace: "@tilt-to-edit/react-menu-selector-example",
     distDir: resolve("examples/react-menu-selector/dist"),
     kind: "Hybrid control",
@@ -309,7 +309,7 @@ async function createLandingPage() {
   <body>
     <main>
       <section class="hero">
-        <p class="eyebrow">Tilt To Edit v0.3.3</p>
+        <p class="eyebrow">Tilt To Edit v0.4.0</p>
         <h1>Choose a demo from the root page</h1>
         <p>
           GitHub Pages now publishes the integrated demo and each focused example

@@ -1,7 +1,7 @@
 {
   "name": "tilt-to-edit",
   "private": true,
-  "version": "0.3.3",
+  "version": "0.4.0",
   "packageManager": "npm@11.6.2",
   "workspaces": [
     "packages/*",

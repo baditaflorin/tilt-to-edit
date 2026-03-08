@@ -7,14 +7,87 @@ import {
 import {
   TiltListNavigator,
   TiltMenuSelector,
+  TiltSettingsAdjuster,
   TiltSlider,
   TiltStepper,
+  TiltSubmenuEditor,
+  type TiltSettingItem,
+  type TiltSettingSection,
   useTiltToEdit,
 } from "@tilt-to-edit/react";
 
 import { TiltSceneRemixCard } from "./TiltSceneRemixCard";
 
 const MENU_ITEMS = ["Brightness", "Contrast", "Theme", "Focus mode", "Volume"];
+
+const ADJUST_ITEMS: TiltSettingItem[] = [
+  {
+    label: "Brightness",
+    value: 68,
+    min: 0,
+    max: 100,
+    step: 4,
+    unit: "%",
+    description: "Overall panel luminance.",
+  },
+  {
+    label: "Contrast",
+    value: 44,
+    min: 0,
+    max: 100,
+    step: 3,
+    unit: "%",
+    description: "Difference between the brightest and darkest regions.",
+  },
+  {
+    label: "Volume",
+    value: 36,
+    min: 0,
+    max: 100,
+    step: 4,
+    unit: "%",
+    description: "Master output level.",
+  },
+  {
+    label: "Warmth",
+    value: 5400,
+    min: 3200,
+    max: 7200,
+    step: 200,
+    unit: "K",
+    description: "Color temperature of the scene lighting.",
+  },
+];
+
+const SUBMENU_SECTIONS: TiltSettingSection[] = [
+  {
+    label: "Display",
+    description: "Primary visual output controls.",
+    items: [
+      { label: "Brightness", value: 72, min: 0, max: 100, step: 4, unit: "%" },
+      { label: "Contrast", value: 46, min: 0, max: 100, step: 3, unit: "%" },
+      { label: "Saturation", value: 58, min: 0, max: 100, step: 3, unit: "%" },
+    ],
+  },
+  {
+    label: "Audio",
+    description: "Playback and atmosphere.",
+    items: [
+      { label: "Volume", value: 34, min: 0, max: 100, step: 4, unit: "%" },
+      { label: "Bass", value: 5, min: -10, max: 10, step: 1 },
+      { label: "Presence", value: 12, min: 0, max: 20, step: 1 },
+    ],
+  },
+  {
+    label: "Scene",
+    description: "Environmental motion and depth cues.",
+    items: [
+      { label: "Parallax", value: 18, min: 0, max: 30, step: 1 },
+      { label: "Fog", value: 24, min: 0, max: 40, step: 2, unit: "%" },
+      { label: "Glow", value: 41, min: 0, max: 100, step: 4, unit: "%" },
+    ],
+  },
+];
 
 function clamp(value: number, min: number, max: number) {
   return Math.min(max, Math.max(min, value));
@@ -116,6 +189,8 @@ export function App({ backend }: AppProps) {
   const [sliderValue, setSliderValue] = useState(42);
   const [selectedIndex, setSelectedIndex] = useState(1);
   const [menuSelection, setMenuSelection] = useState(2);
+  const [adjustItems, setAdjustItems] = useState(ADJUST_ITEMS);
+  const [submenuSections, setSubmenuSections] = useState(SUBMENU_SECTIONS);
   const resolvedBackend = backend ?? liveBackend;
   const { state, requestPermission, calibrate, pause, resume } = useTiltToEdit({
     backend: resolvedBackend,
@@ -130,13 +205,14 @@ export function App({ backend }: AppProps) {
 
       <header className="hero">
         <div className="hero-copy">
-          <p className="eyebrow">Tilt To Edit v0.3.3</p>
+          <p className="eyebrow">Tilt To Edit v0.4.0</p>
           <h1>Live-device editing that feels more like steering than tapping</h1>
           <p className="hero-text">
             This integrated demo is now live-device-first. Use the motion
             permission ritual once, calibrate a neutral pose, then explore
-            discrete edits, continuous edits, list browsing, a hybrid menu, and
-            a scene remix panel where tilt swaps characters and backdrops.
+            discrete edits, continuous edits, list browsing, direct setting
+            adjustment, hierarchical submenu editing, and a scene remix panel
+            where tilt swaps characters and backdrops.
           </p>
           <div className="hero-actions">
             <a className="back-link" href="../">
@@ -165,7 +241,7 @@ export function App({ backend }: AppProps) {
             <li>Tap <strong>Enable tilt</strong>.</li>
             <li>Allow <strong>Motion &amp; Orientation Access</strong>.</li>
             <li>Hold the phone naturally and tap <strong>Calibrate</strong>.</li>
-            <li>Browse with vertical tilt. Commit with buttons or right-tilt selection.</li>
+            <li>Browse with vertical tilt. Use horizontal tilt either to commit or to edit values depending on the component.</li>
           </ol>
           <div className="action-row">
             {state.status === "needs-permission" ? (
@@ -296,6 +372,20 @@ export function App({ backend }: AppProps) {
             setMenuSelection(index);
           }}
           selectedIndex={menuSelection}
+        />
+        <TiltSettingsAdjuster
+          backend={resolvedBackend}
+          items={adjustItems}
+          onChange={(event) => {
+            setAdjustItems(event.items);
+          }}
+        />
+        <TiltSubmenuEditor
+          backend={resolvedBackend}
+          onChange={(event) => {
+            setSubmenuSections(event.sections);
+          }}
+          sections={submenuSections}
         />
       </section>
     </main>

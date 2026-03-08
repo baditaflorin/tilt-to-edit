@@ -6,12 +6,12 @@ Source repository: [github.com/baditaflorin/tilt-to-edit](https://github.com/bad
 
 ## Status
 
-`v0.2.0` implements ADR 0001 through ADR 0010. `v0.2.1` adds a GitHub Pages landing page, `v0.2.2` publishes that static bundle at the repository root so the live Pages URLs work with the repository's current branch-based Pages configuration, `v0.2.3` adds QR codes for each live demo on the landing page, `v0.2.4` brings live device mode to the standalone stepper and list examples, `v0.2.5` makes slider preview track tilt by default while keeping explicit confirmation, `v0.2.6` keeps a live slider monitor visible near the top of the integrated demo when you switch away from simulator mode, `v0.2.7` improves iOS device-orientation detection and makes the stepper react to smaller left-right tilt, `v0.2.8` removes simulator UI from the public demos, adds a hybrid menu selector, and refreshes the demo visuals, `v0.2.9` adds a 3D vector-space visualizer with glowing motion beams based on speed and velocity, `v0.2.10` turns that scene into a true 3D browse-and-select menu, `v0.2.11` slows the browse cadence and redesigns the mobile layout so intermediate items are actually usable, `v0.2.12` expands the list navigator page so it also demonstrates the hybrid menu selector, `v0.2.13` adds a live scene-remix panel to the integrated demo where tilt swaps backdrops on the X axis and characters on the Y axis, `v0.3.0` adds a browser-first embed package that works through a simple `<script>` tag plus declarative markup, `v0.3.1` redesigns the shared telemetry blocks so they read like compact instrumentation instead of selectable menu rows, `v0.3.2` changes continuous left-right slider mapping to use the full configured value span by default, and `v0.3.3` automatically recalibrates when the screen orientation changes, with an opt-out for advanced consumers.
+`v0.2.0` implements ADR 0001 through ADR 0010. `v0.2.1` adds a GitHub Pages landing page, `v0.2.2` publishes that static bundle at the repository root so the live Pages URLs work with the repository's current branch-based Pages configuration, `v0.2.3` adds QR codes for each live demo on the landing page, `v0.2.4` brings live device mode to the standalone stepper and list examples, `v0.2.5` makes slider preview track tilt by default while keeping explicit confirmation, `v0.2.6` keeps a live slider monitor visible near the top of the integrated demo when you switch away from simulator mode, `v0.2.7` improves iOS device-orientation detection and makes the stepper react to smaller left-right tilt, `v0.2.8` removes simulator UI from the public demos, adds a hybrid menu selector, and refreshes the demo visuals, `v0.2.9` adds a 3D vector-space visualizer with glowing motion beams based on speed and velocity, `v0.2.10` turns that scene into a true 3D browse-and-select menu, `v0.2.11` slows the browse cadence and redesigns the mobile layout so intermediate items are actually usable, `v0.2.12` expands the list navigator page so it also demonstrates the hybrid menu selector, `v0.2.13` adds a live scene-remix panel to the integrated demo where tilt swaps backdrops on the X axis and characters on the Y axis, `v0.3.0` adds a browser-first embed package that works through a simple `<script>` tag plus declarative markup, `v0.3.1` redesigns the shared telemetry blocks so they read like compact instrumentation instead of selectable menu rows, `v0.3.2` changes continuous left-right slider mapping to use the full configured value span by default, `v0.3.3` automatically recalibrates when the screen orientation changes, and `v0.4.0` adds direct-adjust settings menus plus hierarchical submenu editors as first-party React primitives.
 
 Implemented surfaces:
 
 - `@tilt-to-edit/core`: backend abstraction, permission diagnostics, calibration, normalization, continuous intent, discrete step events, and simulator support
-- `@tilt-to-edit/react`: `useTiltToEdit`, `TiltStepper`, `TiltSlider`, `TiltListNavigator`, and `TiltMenuSelector`
+- `@tilt-to-edit/react`: `useTiltToEdit`, `TiltStepper`, `TiltSlider`, `TiltListNavigator`, `TiltMenuSelector`, `TiltSettingsAdjuster`, and `TiltSubmenuEditor`
 - `@tilt-to-edit/embed`: browser widgets for `<script>` tag adoption, Shadow DOM isolation, and host-page custom events
 - `examples/*`: runnable consumer apps
 - `apps/demo`: the GitHub Pages demo and containerized demo target, including the new scene-remix interaction
@@ -61,7 +61,7 @@ Useful commands:
 
 ## Architecture Decisions
 
-The shipped implementation is now captured in eleven ADRs:
+The shipped implementation is now captured in twelve ADRs:
 
 1. [ADR 0001](docs/adr/0001-use-a-typescript-workspace-with-core-and-react-layers.md) - Use a TypeScript workspace with core and React layers
 2. [ADR 0002](docs/adr/0002-use-deviceorientationevent-as-the-primary-sensor-backend.md) - Use `DeviceOrientationEvent` as the primary sensor backend
@@ -74,6 +74,7 @@ The shipped implementation is now captured in eleven ADRs:
 9. [ADR 0009](docs/adr/0009-maintain-examples-and-a-github-pages-demo.md) - Maintain examples and a GitHub Pages demo
 10. [ADR 0010](docs/adr/0010-track-releases-with-semver-and-a-changelog.md) - Track releases with SemVer and a changelog
 11. [ADR 0011](docs/adr/0011-ship-a-script-tag-embed-package-with-shadow-dom-and-custom-events.md) - Ship a script-tag embed package with Shadow DOM and custom events
+12. [ADR 0012](docs/adr/0012-add-component-scoped-setting-menus-for-direct-adjustment-and-submenus.md) - Add component-scoped setting menus for direct adjustment and submenus
 
 ## Examples and Demo
 
@@ -83,7 +84,7 @@ Runnable examples:
 - [examples/script-tag-embed/](https://baditaflorin.github.io/tilt-to-edit/embed/): a plain browser `<script>` integration with auto-mounted widgets and host-page scene remix events
 - [examples/react-stepper/](https://baditaflorin.github.io/tilt-to-edit/stepper/): discrete step editing with explicit confirmation
 - [examples/react-list-navigator/](https://baditaflorin.github.io/tilt-to-edit/list/): compare vertical-only navigation with the hybrid browse-and-select menu on one page
-- [examples/react-menu-selector/](https://baditaflorin.github.io/tilt-to-edit/menu/): browse vertically, tilt right to commit, and tilt left to return to the current selection
+- [examples/react-menu-selector/](https://baditaflorin.github.io/tilt-to-edit/menu/): compare browse-and-commit, direct in-place value adjustment, and a three-part submenu editor
 - [examples/react-vector-space/](https://baditaflorin.github.io/tilt-to-edit/space/): browse a slower 3D menu stack with recenter-to-step pacing, cleaner mobile cards, and left-right commit or return
 - [apps/demo/](https://baditaflorin.github.io/tilt-to-edit/demo/): a static demo site for GitHub Pages, plus a container image target for server deployment
 

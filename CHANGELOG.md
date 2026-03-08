@@ -6,6 +6,19 @@ The format is based on Keep a Changelog, and this project aims to follow Semanti
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-03-08
+
+### Added
+
+- Added `ADR 0012`, which defines two new component-scoped settings-menu interaction patterns: direct-adjust rows and hierarchical submenu editing.
+- Added `TiltSettingsAdjuster` to `@tilt-to-edit/react` so vertical tilt can browse between settings while horizontal tilt changes the focused value in place.
+- Added `TiltSubmenuEditor` to `@tilt-to-edit/react` so right tilt can drill from sections into items and then into an editor lane, while left tilt backs out one level at a time.
+
+### Changed
+
+- Expanded the integrated demo and the `/menu/` example so they now compare browse-and-commit, direct value adjustment, and three-part submenu editing on the same live-device-first surfaces.
+- Updated React package exports and example documentation so the new settings primitives are available as first-party plug-and-play building blocks.
+
 ## [0.3.3] - 2026-03-08
 
 ### Fixed
