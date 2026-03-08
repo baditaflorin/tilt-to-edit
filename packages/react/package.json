@@ -1,6 +1,6 @@
 {
   "name": "@tilt-to-edit/react",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -18,7 +18,7 @@
     "react-dom": "^18.3.1"
   },
   "dependencies": {
-    "@tilt-to-edit/core": "0.2.3"
+    "@tilt-to-edit/core": "0.2.4"
   },
   "scripts": {
     "build": "tsc -p tsconfig.build.json",

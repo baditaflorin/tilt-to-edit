@@ -1,18 +1,28 @@
 import { useEffect, useState } from "react";
 
-import { createTiltSimulator } from "@tilt-to-edit/core";
+import {
+  createDeviceOrientationBackend,
+  createTiltSimulator,
+} from "@tilt-to-edit/core";
 import { TiltListNavigator } from "@tilt-to-edit/react";
 
-const ITEMS = ["Alpha", "Beta", "Gamma", "Delta"];
+const ITEMS = ["Speed", "Brightness", "Contrast", "Theme"];
 
 export function App() {
-  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [mode, setMode] = useState<"simulator" | "live">("simulator");
+  const [selectedIndex, setSelectedIndex] = useState(1);
   const [beta, setBeta] = useState(0);
   const [simulator] = useState(() => createTiltSimulator());
+  const [liveBackend] = useState(() => createDeviceOrientationBackend());
+  const backend = mode === "simulator" ? simulator.backend : liveBackend;
 
   useEffect(() => {
+    if (mode !== "simulator") {
+      return;
+    }
+
     simulator.emit({ beta, gamma: 0 });
-  }, [beta, simulator]);
+  }, [beta, mode, simulator]);
 
   return (
     <main className="shell">
@@ -28,24 +38,53 @@ export function App() {
         </a>
       </header>
 
-      <section className="simulator">
-        <label>
-          Beta
-          <input
-            max="45"
-            min="-45"
-            onChange={(event) => {
-              setBeta(Number(event.currentTarget.value));
-            }}
-            type="range"
-            value={beta}
-          />
-          <span>{beta.toFixed(0)} deg</span>
-        </label>
+      <section className="mode-switch">
+        <button
+          className={mode === "simulator" ? "active" : ""}
+          onClick={() => {
+            setMode("simulator");
+          }}
+          type="button"
+        >
+          Simulator
+        </button>
+        <button
+          className={mode === "live" ? "active" : ""}
+          onClick={() => {
+            setMode("live");
+          }}
+          type="button"
+        >
+          Live device
+        </button>
       </section>
 
+      {mode === "simulator" ? (
+        <section className="simulator">
+          <label>
+            Beta
+            <input
+              max="45"
+              min="-45"
+              onChange={(event) => {
+                setBeta(Number(event.currentTarget.value));
+              }}
+              type="range"
+              value={beta}
+            />
+            <span>{beta.toFixed(0)} deg</span>
+          </label>
+        </section>
+      ) : (
+        <p className="live-note">
+          Open this page on a supported mobile browser, then use the built-in
+          controls below to enable tilt permission and calibrate your neutral
+          pose.
+        </p>
+      )}
+
       <TiltListNavigator
-        backend={simulator.backend}
+        backend={backend}
         items={ITEMS}
         onCommit={(index) => {
           setSelectedIndex(index);

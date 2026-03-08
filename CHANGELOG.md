@@ -6,6 +6,16 @@ The format is based on Keep a Changelog, and this project aims to follow Semanti
 
 ## [Unreleased]
 
+## [0.2.4] - 2026-03-08
+
+### Fixed
+
+- Added live device mode to the standalone React stepper and React list navigator examples so they behave correctly on mobile, not just in simulator mode.
+
+### Added
+
+- Example-level tests that verify the standalone stepper and list navigator demos expose both `Simulator` and `Live device` modes and still respond to simulator input.
+
 ## [0.2.3] - 2026-03-08
 
 ### Added
