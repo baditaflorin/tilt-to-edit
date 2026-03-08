@@ -4,7 +4,7 @@
 
 ## Status
 
-`v0.2.0` implements ADR 0001 through ADR 0010. `v0.2.1` adds a GitHub Pages landing page, `v0.2.2` publishes that static bundle at the repository root so the live Pages URLs work with the repository's current branch-based Pages configuration, `v0.2.3` adds QR codes for each live demo on the landing page, `v0.2.4` brings live device mode to the standalone stepper and list examples, `v0.2.5` makes slider preview track tilt by default while keeping explicit confirmation, `v0.2.6` keeps a live slider monitor visible near the top of the integrated demo when you switch away from simulator mode, `v0.2.7` improves iOS device-orientation detection and makes the stepper react to smaller left-right tilt, `v0.2.8` removes simulator UI from the public demos, adds a hybrid menu selector, and refreshes the demo visuals, and `v0.2.9` adds a 3D vector-space visualizer with glowing motion beams based on speed and velocity.
+`v0.2.0` implements ADR 0001 through ADR 0010. `v0.2.1` adds a GitHub Pages landing page, `v0.2.2` publishes that static bundle at the repository root so the live Pages URLs work with the repository's current branch-based Pages configuration, `v0.2.3` adds QR codes for each live demo on the landing page, `v0.2.4` brings live device mode to the standalone stepper and list examples, `v0.2.5` makes slider preview track tilt by default while keeping explicit confirmation, `v0.2.6` keeps a live slider monitor visible near the top of the integrated demo when you switch away from simulator mode, `v0.2.7` improves iOS device-orientation detection and makes the stepper react to smaller left-right tilt, `v0.2.8` removes simulator UI from the public demos, adds a hybrid menu selector, and refreshes the demo visuals, `v0.2.9` adds a 3D vector-space visualizer with glowing motion beams based on speed and velocity, and `v0.2.10` turns that scene into a true 3D browse-and-select menu.
 
 Implemented surfaces:
 
@@ -78,7 +78,7 @@ Runnable examples:
 - [examples/react-stepper/](https://baditaflorin.github.io/tilt-to-edit/stepper/): discrete step editing with explicit confirmation
 - [examples/react-list-navigator/](https://baditaflorin.github.io/tilt-to-edit/list/): vertical list navigation with stable tilt zones
 - [examples/react-menu-selector/](https://baditaflorin.github.io/tilt-to-edit/menu/): browse vertically, tilt right to commit, and tilt left to return to the current selection
-- [examples/react-vector-space/](https://baditaflorin.github.io/tilt-to-edit/space/): visualize intent and velocity as glowing beams and trails inside a 3D chamber
+- [examples/react-vector-space/](https://baditaflorin.github.io/tilt-to-edit/space/): browse a 3D menu stack vertically and commit or return with left-right tilt while glowing vectors track motion
 - [apps/demo/](https://baditaflorin.github.io/tilt-to-edit/demo/): a static demo site for GitHub Pages, plus a container image target for server deployment
 
 The public demos are now live-device-first. Simulator support remains in the core library and test suite, but it is no longer exposed in the public Pages experiences.

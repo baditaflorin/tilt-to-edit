@@ -26,7 +26,7 @@ button {
 
 .shell {
   position: relative;
-  max-width: 1240px;
+  max-width: 1260px;
   margin: 0 auto;
   padding: 3.2rem 1.25rem 4rem;
 }
@@ -169,19 +169,49 @@ button {
   color: #fecaca;
 }
 
+.space-copy {
+  margin: 0 0 1rem;
+  color: rgba(226, 232, 240, 0.8);
+}
+
 .space-stage {
+  position: relative;
   perspective: 1200px;
-  min-height: 520px;
+  min-height: 560px;
   display: grid;
   place-items: center;
 }
 
+.gate-label {
+  position: absolute;
+  top: 50%;
+  padding: 0.55rem 0.85rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: rgba(226, 232, 240, 0.84);
+  background: rgba(9, 22, 41, 0.56);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+}
+
+.gate-left {
+  left: 0;
+  transform: translateY(-50%);
+}
+
+.gate-right {
+  right: 0;
+  transform: translateY(-50%);
+}
+
 .space-room {
   position: relative;
-  width: min(78vw, 580px);
-  height: min(78vw, 580px);
+  width: min(78vw, 620px);
+  height: min(78vw, 620px);
   transform-style: preserve-3d;
-  transform: rotateX(66deg) rotateZ(-42deg);
+  transform: rotateX(64deg) rotateZ(-38deg);
 }
 
 .plane {
@@ -201,7 +231,7 @@ button {
 }
 
 .back-grid {
-  transform: rotateX(90deg) translateZ(-290px);
+  transform: rotateX(90deg) translateZ(-310px);
   background:
     linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
@@ -209,7 +239,7 @@ button {
 }
 
 .side-grid {
-  transform: rotateY(90deg) translateZ(290px);
+  transform: rotateY(90deg) translateZ(310px);
   background:
     linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
@@ -218,11 +248,12 @@ button {
 
 .origin-core,
 .vector-orb,
-.trail-point {
+.trail-point,
+.menu-node,
+.rail {
   position: absolute;
   top: 50%;
   left: 50%;
-  border-radius: 999px;
   transform-style: preserve-3d;
 }
 
@@ -231,8 +262,45 @@ button {
   height: 18px;
   margin-left: -9px;
   margin-top: -9px;
+  border-radius: 999px;
   background: radial-gradient(circle, #ffffff 0%, rgba(59, 130, 246, 0.92) 34%, rgba(11, 18, 36, 0.86) 100%);
   box-shadow: 0 0 34px rgba(96, 165, 250, 0.7);
+}
+
+.rail {
+  display: grid;
+  place-items: center;
+  margin-left: -12px;
+  margin-top: -120px;
+  width: 24px;
+  height: 240px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.74);
+  font-size: 0.66rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+}
+
+.rail span {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+}
+
+.rail-vertical {
+  transform: translate3d(0, 0, 8px);
+  background: linear-gradient(180deg, rgba(34, 197, 94, 0.12), rgba(56, 189, 248, 0.18));
+  box-shadow: 0 0 34px rgba(56, 189, 248, 0.12);
+}
+
+.rail-left {
+  transform: translate3d(-220px, 0, 18px);
+  background: linear-gradient(180deg, rgba(244, 114, 182, 0.12), rgba(251, 113, 133, 0.16));
+}
+
+.rail-right {
+  transform: translate3d(220px, 0, 18px);
+  background: linear-gradient(180deg, rgba(56, 189, 248, 0.12), rgba(45, 212, 191, 0.16));
 }
 
 .intent-beam,
@@ -254,6 +322,7 @@ button {
   height: 30px;
   margin-left: -15px;
   margin-top: -15px;
+  border-radius: 999px;
 }
 
 .trail-point {
@@ -261,6 +330,47 @@ button {
   height: 12px;
   margin-left: -6px;
   margin-top: -6px;
+  border-radius: 999px;
+}
+
+.menu-node {
+  display: grid;
+  gap: 0.35rem;
+  width: min(60vw, 320px);
+  margin-left: calc(min(60vw, 320px) / -2);
+  margin-top: -34px;
+  padding: 1rem 1.1rem;
+  border-radius: 22px;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.14), rgba(8, 15, 28, 0.7)),
+    rgba(5, 10, 24, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(18px);
+}
+
+.menu-node.is-highlighted {
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.18), rgba(56, 189, 248, 0.14)),
+    rgba(8, 16, 30, 0.76);
+}
+
+.menu-node.is-selected {
+  background:
+    linear-gradient(135deg, rgba(251, 191, 36, 0.16), rgba(255, 255, 255, 0.12)),
+    rgba(8, 16, 30, 0.76);
+}
+
+.menu-node-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #fff7ed;
+}
+
+.menu-node-meta {
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: rgba(226, 232, 240, 0.66);
 }
 
 .metric-grid {
@@ -314,19 +424,19 @@ button {
   box-shadow: 0 0 24px currentColor;
 }
 
-.legend-swatch.slow {
-  color: #60a5fa;
-  background: #60a5fa;
+.legend-swatch.browse {
+  color: #22c55e;
+  background: #22c55e;
 }
 
-.legend-swatch.medium {
-  color: #34d399;
-  background: #34d399;
+.legend-swatch.commit {
+  color: #38bdf8;
+  background: #38bdf8;
 }
 
-.legend-swatch.fast {
-  color: #fb7185;
-  background: #fb7185;
+.legend-swatch.return {
+  color: #f472b6;
+  background: #f472b6;
 }
 
 .diagnostics {
@@ -352,13 +462,74 @@ button {
   }
 }
 
-@media (max-width: 760px) {
+@media (max-width: 860px) {
   .space-stage {
-    min-height: 400px;
+    min-height: 480px;
   }
 
   .space-room {
-    width: min(86vw, 420px);
-    height: min(86vw, 420px);
+    width: min(90vw, 500px);
+    height: min(90vw, 500px);
+  }
+
+  .gate-label {
+    top: auto;
+    bottom: 0;
+    transform: none;
+  }
+
+  .gate-left {
+    left: 0;
+  }
+
+  .gate-right {
+    right: 0;
+  }
+
+  .rail-left {
+    transform: translate3d(-170px, 0, 18px);
+  }
+
+  .rail-right {
+    transform: translate3d(170px, 0, 18px);
+  }
+}
+
+@media (max-width: 640px) {
+  .shell {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .space-stage {
+    min-height: 420px;
+  }
+
+  .space-room {
+    width: min(94vw, 390px);
+    height: min(94vw, 390px);
+  }
+
+  .menu-node {
+    width: min(72vw, 260px);
+    margin-left: calc(min(72vw, 260px) / -2);
+    padding: 0.8rem 0.9rem;
+  }
+
+  .menu-node-title {
+    font-size: 0.92rem;
+  }
+
+  .rail {
+    height: 180px;
+    margin-top: -90px;
+  }
+
+  .rail-left {
+    transform: translate3d(-132px, 0, 18px);
+  }
+
+  .rail-right {
+    transform: translate3d(132px, 0, 18px);
   }
 }

@@ -6,6 +6,14 @@ The format is based on Keep a Changelog, and this project aims to follow Semanti
 
 ## [Unreleased]
 
+## [0.2.10] - 2026-03-08
+
+### Changed
+
+- Reworked `React Vector Space` from a free-floating telemetry chamber into a 3D browse-and-select menu.
+- The `/space/` demo now mirrors the hybrid control language from the main demo: vertical tilt browses, right tilt commits, and left tilt returns to the current selection.
+- Updated the Pages landing copy and example documentation so the 3D demo is described as a spatial menu rather than a pure visualizer.
+
 ## [0.2.9] - 2026-03-08
 
 ### Added
