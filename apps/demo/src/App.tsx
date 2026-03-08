@@ -41,7 +41,7 @@ export function App() {
     <main className="page">
       <header className="hero">
         <div>
-          <p className="eyebrow">Tilt To Edit v0.2.2</p>
+          <p className="eyebrow">Tilt To Edit v0.2.3</p>
           <h1>Device tilt as intentional editing input</h1>
           <p>
             The demo runs on GitHub Pages and supports both live mobile sensors

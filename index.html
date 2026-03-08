@@ -69,7 +69,9 @@
 
       .card {
         display: grid;
-        gap: 0.75rem;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 1rem;
+        align-items: center;
         text-decoration: none;
         color: inherit;
         background: var(--panel);
@@ -92,6 +94,11 @@
         font-size: 1.35rem;
       }
 
+      .card-copy {
+        display: grid;
+        gap: 0.75rem;
+      }
+
       .card p {
         margin: 0;
         color: var(--muted);
@@ -104,47 +111,132 @@
         color: var(--accent);
       }
 
+      .url {
+        font-size: 0.83rem;
+        word-break: break-word;
+      }
+
       .card span {
         font-weight: 600;
+      }
+
+      .qr-block {
+        display: grid;
+        justify-items: center;
+        gap: 0.55rem;
+      }
+
+      .qr-image {
+        display: grid;
+        place-items: center;
+        width: 132px;
+        height: 132px;
+        padding: 0.35rem;
+        background: #ffffff;
+        border-radius: 18px;
+        border: 1px solid rgba(15, 23, 42, 0.1);
+      }
+
+      .qr-image svg {
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+
+      .qr-label {
+        font-size: 0.8rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--accent);
+      }
+
+      @media (max-width: 680px) {
+        .card {
+          grid-template-columns: 1fr;
+        }
+
+        .qr-block {
+          justify-items: start;
+        }
       }
     </style>
   </head>
   <body>
     <main>
       <section class="hero">
-        <p class="eyebrow">Tilt To Edit v0.2.2</p>
+        <p class="eyebrow">Tilt To Edit v0.2.3</p>
         <h1>Choose a demo from the root page</h1>
         <p>
           GitHub Pages now publishes the integrated demo and each focused example
           under one public entry point. Open the experience you want directly
-          from here.
+          from here or scan a QR code from desktop to continue on your phone.
         </p>
       </section>
       <section class="grid">
         
         <a class="card" href="./demo/">
-          <p class="kind">Primary demo</p>
-          <h2>Integrated Demo</h2>
-          <p>One shell that combines the sensor console, simulator, stepper, slider, and list navigator.</p>
-          <span>Open demo</span>
+          <div class="card-copy">
+            <p class="kind">Primary demo</p>
+            <h2>Integrated Demo</h2>
+            <p>One shell that combines the sensor console, simulator, stepper, slider, and list navigator.</p>
+            <p class="url">https://baditaflorin.github.io/tilt-to-edit/demo/</p>
+            <span>Open demo</span>
+          </div>
+          <div class="qr-block">
+            <div class="qr-image" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" width="132" height="132" viewBox="0 0 35 35" shape-rendering="crispEdges"><path fill="#ffffff" d="M0 0h35v35H0z"/><path stroke="#10233d" d="M1 1.5h7m2 0h1m6 0h1m1 0h4m1 0h1m2 0h7M1 2.5h1m5 0h1m2 0h1m1 0h1m3 0h2m1 0h1m2 0h2m1 0h1m1 0h1m5 0h1M1 3.5h1m1 0h3m1 0h1m1 0h1m1 0h2m2 0h2m3 0h3m4 0h1m1 0h3m1 0h1M1 4.5h1m1 0h3m1 0h1m1 0h1m3 0h1m5 0h2m2 0h1m1 0h1m1 0h1m1 0h3m1 0h1M1 5.5h1m1 0h3m1 0h1m1 0h1m2 0h1m1 0h4m3 0h2m1 0h1m2 0h1m1 0h3m1 0h1M1 6.5h1m5 0h1m1 0h2m3 0h2m2 0h1m1 0h1m1 0h1m4 0h1m5 0h1M1 7.5h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7M9 8.5h5m1 0h1m1 0h1m2 0h5M1 9.5h1m1 0h5m3 0h4m3 0h1m1 0h1m2 0h2m2 0h5M5 10.5h2m3 0h2m1 0h2m2 0h4m1 0h1m1 0h1m2 0h2m1 0h2m1 0h1M2 11.5h1m3 0h3m1 0h1m2 0h4m1 0h1m3 0h2m2 0h2m1 0h1m1 0h2M2 12.5h1m1 0h1m1 0h1m2 0h1m1 0h1m1 0h2m2 0h7m1 0h2m2 0h4M1 13.5h5m1 0h2m1 0h2m1 0h1m1 0h1m1 0h1m2 0h2m1 0h4m1 0h3m2 0h1M2 14.5h1m2 0h2m1 0h3m1 0h3m1 0h1m1 0h2m2 0h1m1 0h2m1 0h2m1 0h1m1 0h2M1 15.5h1m1 0h3m1 0h3m1 0h3m2 0h2m1 0h1m1 0h1m1 0h1m1 0h3m1 0h1m1 0h2M1 16.5h1m1 0h2m1 0h1m1 0h1m6 0h2m5 0h1m3 0h2m1 0h3M1 17.5h2m2 0h1m1 0h1m2 0h1m1 0h2m1 0h2m1 0h1m4 0h1m1 0h2m1 0h3m2 0h1M4 18.5h1m1 0h1m1 0h1m1 0h3m7 0h2m2 0h1m2 0h2m1 0h2m1 0h1M4 19.5h4m1 0h1m1 0h1m2 0h1m1 0h1m2 0h1m1 0h3m1 0h2m1 0h2m1 0h2M1 20.5h1m1 0h2m1 0h1m4 0h5m6 0h2m2 0h1m1 0h4M1 21.5h2m2 0h3m2 0h1m1 0h3m1 0h1m2 0h2m2 0h1m2 0h1m1 0h3m1 0h1M1 22.5h5m3 0h5m2 0h2m3 0h1m2 0h1m2 0h1m2 0h2m1 0h1M1 23.5h1m1 0h5m4 0h1m7 0h1m1 0h2m4 0h1m2 0h2M1 24.5h1m1 0h2m1 0h1m1 0h4m1 0h1m3 0h1m1 0h4m2 0h1m1 0h1m3 0h2M1 25.5h1m2 0h1m2 0h3m1 0h4m3 0h1m1 0h1m2 0h7M9 26.5h1m1 0h2m4 0h5m3 0h1m3 0h1m1 0h3M1 27.5h7m8 0h3m4 0h3m1 0h1m1 0h1m1 0h2M1 28.5h1m5 0h1m1 0h3m1 0h1m2 0h5m1 0h4m3 0h5M1 29.5h1m1 0h3m1 0h1m1 0h1m1 0h2m1 0h1m1 0h2m7 0h6m1 0h2M1 30.5h1m1 0h3m1 0h1m1 0h2m1 0h2m2 0h1m1 0h2m4 0h3m2 0h2m1 0h2M1 31.5h1m1 0h3m1 0h1m1 0h1m2 0h1m2 0h3m1 0h1m1 0h1m1 0h1m1 0h1m1 0h2m1 0h2M1 32.5h1m5 0h1m2 0h7m2 0h5m2 0h1m2 0h3M1 33.5h7m1 0h1m5 0h4m1 0h2m1 0h3m2 0h1m1 0h1m1 0h1"/></svg>
+
+            </div>
+            <p class="qr-label">Scan on phone</p>
+          </div>
         </a>
         <a class="card" href="./basic/">
-          <p class="kind">Hook example</p>
-          <h2>React Basic</h2>
-          <p>Permission flow, calibration, normalized intent output, and explicit confirmation state.</p>
-          <span>Open demo</span>
+          <div class="card-copy">
+            <p class="kind">Hook example</p>
+            <h2>React Basic</h2>
+            <p>Permission flow, calibration, normalized intent output, and explicit confirmation state.</p>
+            <p class="url">https://baditaflorin.github.io/tilt-to-edit/basic/</p>
+            <span>Open demo</span>
+          </div>
+          <div class="qr-block">
+            <div class="qr-image" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" width="132" height="132" viewBox="0 0 35 35" shape-rendering="crispEdges"><path fill="#ffffff" d="M0 0h35v35H0z"/><path stroke="#10233d" d="M1 1.5h7m3 0h1m1 0h2m2 0h6m1 0h1m2 0h7M1 2.5h1m5 0h1m3 0h2m1 0h5m6 0h1m1 0h1m5 0h1M1 3.5h1m1 0h3m1 0h1m1 0h4m1 0h1m1 0h1m1 0h5m4 0h1m1 0h3m1 0h1M1 4.5h1m1 0h3m1 0h1m1 0h3m3 0h1m1 0h1m2 0h2m1 0h1m1 0h1m1 0h1m1 0h3m1 0h1M1 5.5h1m1 0h3m1 0h1m1 0h1m4 0h1m1 0h1m2 0h1m2 0h1m1 0h1m2 0h1m1 0h3m1 0h1M1 6.5h1m5 0h1m1 0h1m2 0h7m2 0h2m4 0h1m5 0h1M1 7.5h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7M9 8.5h2m1 0h1m2 0h2m5 0h3M1 9.5h1m1 0h5m2 0h1m1 0h3m1 0h1m1 0h1m4 0h2m2 0h5M1 10.5h1m1 0h4m1 0h1m1 0h1m1 0h1m4 0h1m1 0h2m1 0h1m1 0h1m2 0h2m1 0h2m1 0h1M2 11.5h3m1 0h2m1 0h4m3 0h1m2 0h1m2 0h1m3 0h2m1 0h1m1 0h2M2 12.5h1m2 0h2m1 0h1m6 0h1m1 0h1m2 0h4m1 0h2m2 0h4M6 13.5h3m1 0h1m1 0h1m6 0h2m2 0h4m1 0h3m2 0h1M2 14.5h3m1 0h1m3 0h2m2 0h5m2 0h5m1 0h2m1 0h1m1 0h2M1 15.5h2m1 0h5m3 0h3m4 0h2m2 0h1m1 0h3m1 0h1m1 0h2M1 16.5h1m3 0h1m2 0h1m1 0h4m3 0h1m2 0h3m3 0h2m1 0h3M2 17.5h1m2 0h3m5 0h3m2 0h1m1 0h1m2 0h1m1 0h2m1 0h3m2 0h1M1 18.5h1m1 0h2m1 0h1m2 0h2m2 0h1m4 0h1m1 0h3m1 0h1m2 0h2m1 0h2m1 0h1M1 19.5h3m1 0h8m3 0h1m1 0h1m2 0h1m3 0h2m1 0h2m1 0h2M1 20.5h1m1 0h2m5 0h3m2 0h1m2 0h2m2 0h2m2 0h1m1 0h4M1 21.5h1m2 0h1m1 0h5m1 0h1m1 0h4m2 0h1m2 0h1m2 0h1m1 0h3m1 0h1M1 22.5h1m1 0h1m1 0h2m2 0h1m2 0h1m3 0h1m2 0h1m4 0h1m2 0h1m2 0h2m1 0h1M1 23.5h1m1 0h1m1 0h1m1 0h2m2 0h1m1 0h1m2 0h2m3 0h3m4 0h1m2 0h2M1 24.5h1m1 0h2m1 0h1m3 0h3m1 0h3m2 0h4m2 0h1m1 0h1m3 0h1m1 0h1M1 25.5h1m1 0h2m2 0h3m3 0h1m2 0h1m1 0h1m1 0h1m2 0h7M9 26.5h1m5 0h1m1 0h1m1 0h3m3 0h1m3 0h1m1 0h3M1 27.5h7m4 0h2m1 0h3m1 0h1m2 0h1m1 0h2m1 0h1m1 0h1m1 0h2M1 28.5h1m5 0h1m1 0h1m1 0h3m1 0h3m2 0h1m1 0h4m3 0h5M1 29.5h1m1 0h3m1 0h1m1 0h2m2 0h1m2 0h1m2 0h1m3 0h1m1 0h6m1 0h2M1 30.5h1m1 0h3m1 0h1m1 0h3m1 0h1m1 0h4m1 0h1m3 0h3m2 0h2m1 0h2M1 31.5h1m1 0h3m1 0h1m1 0h1m2 0h1m1 0h1m4 0h1m1 0h1m1 0h1m1 0h1m1 0h2m1 0h2M1 32.5h1m5 0h1m2 0h1m2 0h3m1 0h1m1 0h2m1 0h2m2 0h1m2 0h3M1 33.5h7m1 0h3m1 0h2m2 0h2m2 0h1m1 0h3m2 0h1m1 0h1m1 0h1"/></svg>
+
+            </div>
+            <p class="qr-label">Scan on phone</p>
+          </div>
         </a>
         <a class="card" href="./stepper/">
-          <p class="kind">Discrete control</p>
-          <h2>React Stepper</h2>
-          <p>Discrete left-right tilt editing with step events and explicit confirmation.</p>
-          <span>Open demo</span>
+          <div class="card-copy">
+            <p class="kind">Discrete control</p>
+            <h2>React Stepper</h2>
+            <p>Discrete left-right tilt editing with step events and explicit confirmation.</p>
+            <p class="url">https://baditaflorin.github.io/tilt-to-edit/stepper/</p>
+            <span>Open demo</span>
+          </div>
+          <div class="qr-block">
+            <div class="qr-image" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" width="132" height="132" viewBox="0 0 35 35" shape-rendering="crispEdges"><path fill="#ffffff" d="M0 0h35v35H0z"/><path stroke="#10233d" d="M1 1.5h7m1 0h1m1 0h3m1 0h5m4 0h1m2 0h7M1 2.5h1m5 0h1m3 0h1m5 0h2m1 0h3m2 0h1m1 0h1m5 0h1M1 3.5h1m1 0h3m1 0h1m2 0h2m1 0h2m1 0h2m2 0h3m1 0h2m1 0h1m1 0h3m1 0h1M1 4.5h1m1 0h3m1 0h1m1 0h2m1 0h2m1 0h1m2 0h3m3 0h2m1 0h1m1 0h3m1 0h1M1 5.5h1m1 0h3m1 0h1m1 0h4m2 0h1m3 0h3m1 0h2m2 0h1m1 0h3m1 0h1M1 6.5h1m5 0h1m1 0h1m1 0h1m5 0h2m1 0h1m6 0h1m5 0h1M1 7.5h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7M9 8.5h1m1 0h2m2 0h8m2 0h1M1 9.5h1m3 0h1m1 0h5m3 0h1m2 0h1m2 0h4m1 0h5m2 0h1M1 10.5h1m3 0h2m5 0h1m1 0h4m1 0h1m1 0h1m2 0h1m1 0h1m3 0h3M3 11.5h2m1 0h2m3 0h1m1 0h1m2 0h3m3 0h1m1 0h4m2 0h1m1 0h1M2 12.5h2m2 0h1m2 0h1m1 0h1m1 0h1m1 0h1m2 0h7m1 0h1m5 0h1M1 13.5h2m1 0h1m1 0h6m2 0h3m2 0h1m1 0h5m1 0h1m1 0h2m1 0h1M1 14.5h2m2 0h1m3 0h2m2 0h1m3 0h2m2 0h1m2 0h3m3 0h1M2 15.5h1m1 0h2m1 0h6m2 0h1m1 0h2m5 0h1m1 0h2m2 0h1m1 0h1M4 16.5h1m1 0h1m1 0h1m1 0h2m1 0h1m4 0h3m1 0h6M2 17.5h4m1 0h1m3 0h3m1 0h2m1 0h1m1 0h4m1 0h1m1 0h1m1 0h2m1 0h1M1 18.5h2m1 0h1m3 0h1m1 0h1m3 0h3m1 0h1m5 0h1m1 0h1m3 0h3M2 19.5h3m1 0h4m2 0h1m2 0h3m1 0h1m1 0h2m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1M2 20.5h1m1 0h2m5 0h1m1 0h1m3 0h1m4 0h1m1 0h3m1 0h1M3 21.5h1m2 0h2m2 0h2m1 0h1m3 0h1m4 0h2m3 0h1m1 0h2m2 0h1M1 22.5h2m3 0h1m4 0h1m1 0h2m4 0h1m2 0h3m1 0h1m1 0h1m1 0h3M4 23.5h1m1 0h3m3 0h3m1 0h1m1 0h2m1 0h2m1 0h2m2 0h3m1 0h1M3 24.5h1m1 0h1m4 0h2m2 0h1m1 0h3m2 0h4m2 0h1m1 0h2M1 25.5h2m4 0h1m3 0h2m5 0h1m1 0h10m3 0h1M9 26.5h3m4 0h2m1 0h1m5 0h1m3 0h1m1 0h1M1 27.5h7m1 0h1m2 0h1m1 0h1m1 0h1m1 0h1m3 0h2m1 0h1m1 0h1m1 0h2m1 0h1M1 28.5h1m5 0h1m3 0h3m1 0h2m1 0h3m1 0h2m1 0h1m3 0h1m2 0h2M1 29.5h1m1 0h3m1 0h1m1 0h2m3 0h1m4 0h5m1 0h6M1 30.5h1m1 0h3m1 0h1m3 0h3m1 0h1m1 0h2m3 0h4m1 0h4M1 31.5h1m1 0h3m1 0h1m2 0h2m2 0h2m1 0h2m5 0h1m2 0h3M1 32.5h1m5 0h1m3 0h1m3 0h1m2 0h1m3 0h1m1 0h3M1 33.5h7m1 0h1m2 0h3m1 0h3m1 0h1m1 0h6m2 0h1m2 0h1"/></svg>
+
+            </div>
+            <p class="qr-label">Scan on phone</p>
+          </div>
         </a>
         <a class="card" href="./list/">
-          <p class="kind">Navigation example</p>
-          <h2>React List Navigator</h2>
-          <p>Vertical tilt zones for list navigation with separate commit behavior.</p>
-          <span>Open demo</span>
+          <div class="card-copy">
+            <p class="kind">Navigation example</p>
+            <h2>React List Navigator</h2>
+            <p>Vertical tilt zones for list navigation with separate commit behavior.</p>
+            <p class="url">https://baditaflorin.github.io/tilt-to-edit/list/</p>
+            <span>Open demo</span>
+          </div>
+          <div class="qr-block">
+            <div class="qr-image" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" width="132" height="132" viewBox="0 0 35 35" shape-rendering="crispEdges"><path fill="#ffffff" d="M0 0h35v35H0z"/><path stroke="#10233d" d="M1 1.5h7m9 0h1m1 0h3m2 0h1m2 0h7M1 2.5h1m5 0h1m2 0h1m1 0h1m3 0h2m1 0h1m2 0h2m1 0h1m1 0h1m5 0h1M1 3.5h1m1 0h3m1 0h1m1 0h2m1 0h1m2 0h2m3 0h3m4 0h1m1 0h3m1 0h1M1 4.5h1m1 0h3m1 0h1m1 0h1m9 0h2m2 0h1m1 0h1m1 0h1m1 0h3m1 0h1M1 5.5h1m1 0h3m1 0h1m1 0h1m4 0h4m3 0h2m1 0h1m2 0h1m1 0h3m1 0h1M1 6.5h1m5 0h1m1 0h2m3 0h2m2 0h1m1 0h1m1 0h1m4 0h1m5 0h1M1 7.5h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7M9 8.5h5m1 0h1m1 0h1m2 0h5M1 9.5h1m1 0h5m3 0h4m3 0h1m1 0h1m2 0h2m2 0h5M1 10.5h1m3 0h2m3 0h2m1 0h2m2 0h4m3 0h1m2 0h2m1 0h2m1 0h1M7 11.5h2m4 0h4m1 0h1m3 0h1m3 0h2m1 0h1m1 0h2M1 12.5h2m1 0h1m1 0h1m2 0h1m3 0h2m2 0h7m1 0h2m2 0h4M1 13.5h9m1 0h1m1 0h1m1 0h1m1 0h1m2 0h2m1 0h4m1 0h3m2 0h1M2 14.5h2m1 0h2m1 0h1m1 0h2m1 0h2m1 0h1m1 0h2m2 0h4m1 0h2m1 0h1m1 0h2M1 15.5h1m1 0h3m1 0h3m1 0h1m4 0h2m1 0h1m1 0h1m1 0h1m1 0h3m1 0h1m1 0h2M1 16.5h1m1 0h2m1 0h1m2 0h1m2 0h2m1 0h2m5 0h1m3 0h2m1 0h3M1 17.5h3m1 0h1m1 0h1m2 0h1m1 0h2m1 0h2m1 0h1m4 0h1m1 0h2m1 0h3m2 0h1M4 18.5h1m1 0h1m1 0h1m1 0h3m7 0h3m1 0h1m2 0h2m1 0h2m1 0h1M1 19.5h2m1 0h1m2 0h1m1 0h1m6 0h1m2 0h1m1 0h1m3 0h2m1 0h2m1 0h2M1 20.5h1m1 0h4m4 0h4m7 0h2m2 0h1m1 0h4M2 21.5h1m1 0h2m1 0h1m1 0h2m1 0h3m1 0h1m2 0h2m2 0h1m2 0h1m1 0h3m1 0h1M1 22.5h1m3 0h1m4 0h3m3 0h2m3 0h1m1 0h2m2 0h1m2 0h2m1 0h1M1 23.5h1m3 0h4m11 0h1m1 0h2m4 0h1m2 0h2M1 24.5h1m1 0h1m2 0h1m2 0h3m1 0h1m3 0h1m1 0h4m2 0h1m1 0h1m3 0h2M1 25.5h1m1 0h2m2 0h1m1 0h1m1 0h4m3 0h1m1 0h1m2 0h7M9 26.5h4m4 0h6m2 0h1m3 0h1m1 0h3M1 27.5h7m3 0h1m2 0h5m3 0h4m1 0h1m1 0h1m1 0h2M1 28.5h1m5 0h1m1 0h1m3 0h1m2 0h5m1 0h1m1 0h2m3 0h5M1 29.5h1m1 0h3m1 0h1m1 0h1m1 0h2m1 0h4m7 0h6m1 0h2M1 30.5h1m1 0h3m1 0h1m1 0h4m2 0h2m1 0h2m4 0h3m2 0h2m1 0h2M1 31.5h1m1 0h3m1 0h1m1 0h1m2 0h2m1 0h3m1 0h1m1 0h1m1 0h1m1 0h1m1 0h2m1 0h2M1 32.5h1m5 0h1m2 0h7m2 0h5m2 0h1m2 0h3M1 33.5h7m1 0h1m5 0h4m1 0h2m1 0h3m2 0h1m1 0h1m1 0h1"/></svg>
+
+            </div>
+            <p class="qr-label">Scan on phone</p>
+          </div>
         </a>
       </section>
     </main>

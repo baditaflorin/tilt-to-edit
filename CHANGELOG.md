@@ -6,6 +6,16 @@ The format is based on Keep a Changelog, and this project aims to follow Semanti
 
 ## [Unreleased]
 
+## [0.2.3] - 2026-03-08
+
+### Added
+
+- QR codes for each public GitHub Pages demo on the root landing page so desktop users can scan directly into the live mobile experiences.
+
+### Changed
+
+- The branch-served landing page now shows each demo's public URL alongside the direct link and scan target.
+
 ## [0.2.2] - 2026-03-08
 
 ### Fixed

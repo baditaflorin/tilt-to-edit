@@ -4,7 +4,7 @@
 
 ## Status
 
-`v0.2.0` implements ADR 0001 through ADR 0010. `v0.2.1` adds a GitHub Pages landing page, and `v0.2.2` publishes that static bundle at the repository root so the live Pages URLs work with the repository's current branch-based Pages configuration.
+`v0.2.0` implements ADR 0001 through ADR 0010. `v0.2.1` adds a GitHub Pages landing page, `v0.2.2` publishes that static bundle at the repository root so the live Pages URLs work with the repository's current branch-based Pages configuration, and `v0.2.3` adds QR codes for each live demo on the landing page.
 
 Implemented surfaces:
 
@@ -16,6 +16,7 @@ Implemented surfaces:
 Public Pages entry points:
 
 - `/` landing page with direct demo links
+- `/` landing page with direct demo links and QR codes for mobile handoff
 - `/demo/` integrated demo shell
 - `/basic/` React basic example
 - `/stepper/` React stepper example

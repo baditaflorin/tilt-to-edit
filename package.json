@@ -1,7 +1,7 @@
 {
   "name": "tilt-to-edit",
   "private": true,
-  "version": "0.2.2",
+  "version": "0.2.3",
   "packageManager": "npm@11.6.2",
   "workspaces": [
     "packages/*",
@@ -31,6 +31,7 @@
     "@types/react-dom": "^18.3.1",
     "@vitejs/plugin-react": "^5.0.4",
     "jsdom": "^26.0.0",
+    "qrcode": "^1.5.4",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "typescript": "^5.7.3",
