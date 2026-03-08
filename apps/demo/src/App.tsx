@@ -12,6 +12,8 @@ import {
   useTiltToEdit,
 } from "@tilt-to-edit/react";
 
+import { TiltSceneRemixCard } from "./TiltSceneRemixCard";
+
 const MENU_ITEMS = ["Brightness", "Contrast", "Theme", "Focus mode", "Volume"];
 
 function clamp(value: number, min: number, max: number) {
@@ -123,13 +125,13 @@ export function App({ backend }: AppProps) {
 
       <header className="hero">
         <div className="hero-copy">
-          <p className="eyebrow">Tilt To Edit v0.2.12</p>
+          <p className="eyebrow">Tilt To Edit v0.2.13</p>
           <h1>Live-device editing that feels more like steering than tapping</h1>
           <p className="hero-text">
             This integrated demo is now live-device-first. Use the motion
             permission ritual once, calibrate a neutral pose, then explore
-            discrete edits, continuous edits, list browsing, and a new
-            browse-to-select hybrid menu.
+            discrete edits, continuous edits, list browsing, a hybrid menu, and
+            a scene remix panel where tilt swaps characters and backdrops.
           </p>
           <div className="hero-actions">
             <a className="back-link" href="../">
@@ -239,6 +241,7 @@ export function App({ backend }: AppProps) {
       </section>
 
       <section className="showcase-grid">
+        <TiltSceneRemixCard backend={resolvedBackend} />
         <TiltStepper
           backend={resolvedBackend}
           onCommit={(nextValue) => {

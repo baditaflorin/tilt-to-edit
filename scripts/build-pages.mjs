@@ -16,7 +16,7 @@ const demos = [
     slug: "demo",
     title: "Integrated Demo",
     description:
-      "One live-device shell that combines telemetry, stepper, slider, list navigation, and hybrid menu selection.",
+      "One live-device shell that combines telemetry, stepper, slider, list navigation, hybrid menu selection, and a scene remix that swaps backdrops and characters.",
     workspace: "@tilt-to-edit/demo",
     distDir: resolve("apps/demo/dist"),
     kind: "Primary demo",
@@ -299,7 +299,7 @@ async function createLandingPage() {
   <body>
     <main>
       <section class="hero">
-        <p class="eyebrow">Tilt To Edit v0.2.12</p>
+        <p class="eyebrow">Tilt To Edit v0.2.13</p>
         <h1>Choose a demo from the root page</h1>
         <p>
           GitHub Pages now publishes the integrated demo and each focused example

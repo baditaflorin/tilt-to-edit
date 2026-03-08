@@ -6,6 +6,20 @@ The format is based on Keep a Changelog, and this project aims to follow Semanti
 
 ## [Unreleased]
 
+## [0.2.13] - 2026-03-08
+
+### Added
+
+- Added `TiltSceneRemixCard` to the integrated `/demo/` app so horizontal tilt swaps backdrops and vertical tilt swaps characters in a live scene-style preview.
+
+### Changed
+
+- Polished the integrated demo copy so the new image-style remix interaction is presented alongside the existing stepper, slider, list, and hybrid menu examples.
+
+### Fixed
+
+- Added regression coverage for the new scene-remix card and tightened the metric lookup helper so repeated labels inside the preview UI do not break the test.
+
 ## [0.2.12] - 2026-03-08
 
 ### Added
