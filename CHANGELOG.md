@@ -6,6 +6,14 @@ The format is based on Keep a Changelog, and this project aims to follow Semanti
 
 ## [Unreleased]
 
+## [0.2.9] - 2026-03-08
+
+### Added
+
+- A new `React Vector Space` example and Pages route at `/space/` that renders tilt intent inside a 3D chamber.
+- Glowing intent and velocity beams whose color and intensity change with movement direction and speed.
+- Trail rendering that keeps recent motion history visible in the new 3D example.
+
 ## [0.2.8] - 2026-03-08
 
 ### Added

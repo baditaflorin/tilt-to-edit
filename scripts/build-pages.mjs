@@ -62,6 +62,16 @@ const demos = [
     kind: "Hybrid control",
     publicUrl: `${siteRoot}/menu/`,
   },
+  {
+    slug: "space",
+    title: "React Vector Space",
+    description:
+      "A 3D chamber that visualizes tilt intent, velocity, and motion trails with glowing vector beams.",
+    workspace: "@tilt-to-edit/react-vector-space-example",
+    distDir: resolve("examples/react-vector-space/dist"),
+    kind: "3D visualizer",
+    publicUrl: `${siteRoot}/space/`,
+  },
 ];
 
 function run(command, args, env = {}) {
@@ -289,7 +299,7 @@ async function createLandingPage() {
   <body>
     <main>
       <section class="hero">
-        <p class="eyebrow">Tilt To Edit v0.2.8</p>
+        <p class="eyebrow">Tilt To Edit v0.2.9</p>
         <h1>Choose a demo from the root page</h1>
         <p>
           GitHub Pages now publishes the integrated demo and each focused example
