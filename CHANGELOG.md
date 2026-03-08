@@ -6,6 +6,13 @@ The format is based on Keep a Changelog, and this project aims to follow Semanti
 
 ## [Unreleased]
 
+## [0.3.3] - 2026-03-08
+
+### Fixed
+
+- Added automatic recalibration when the screen orientation changes so rotating between portrait and landscape no longer usually requires a manual recalibrate step.
+- Added an opt-out engine option for consumers that need to preserve the old manual-only behavior.
+
 ## [0.3.2] - 2026-03-08
 
 ### Fixed

@@ -82,6 +82,48 @@ describe("TiltEngine", () => {
     expect(engine.getSnapshot().intentVector.x).toBeGreaterThan(0.4);
   });
 
+  it("auto-recalibrates on screen orientation changes by default", async () => {
+    const simulator = createTiltSimulator();
+    let screenAngle = 0;
+    const engine = createTiltEngine({
+      backend: simulator.backend,
+      smoothing: 0,
+      screenOrientationProvider: () => screenAngle,
+    });
+
+    await engine.start();
+    simulator.emit({ beta: 0, gamma: 0, timestamp: 0 });
+
+    screenAngle = 90;
+    simulator.emit({ beta: -20, gamma: 0, timestamp: 10 });
+
+    expect(engine.getSnapshot().calibration?.timestamp).toBe(10);
+    expect(engine.getSnapshot().intentVector.x).toBe(0);
+    expect(engine.getSnapshot().intentVector.y).toBe(0);
+
+    simulator.emit({ beta: -40, gamma: 0, timestamp: 20 });
+    expect(engine.getSnapshot().intentVector.x).toBeGreaterThan(0.4);
+  });
+
+  it("can opt out of orientation-change auto-calibration", async () => {
+    const simulator = createTiltSimulator();
+    let screenAngle = 0;
+    const engine = createTiltEngine({
+      backend: simulator.backend,
+      smoothing: 0,
+      autoCalibrateOnScreenOrientationChange: false,
+      screenOrientationProvider: () => screenAngle,
+    });
+
+    await engine.start();
+    simulator.emit({ beta: 0, gamma: 0, timestamp: 0 });
+
+    screenAngle = 90;
+    simulator.emit({ beta: -20, gamma: 0, timestamp: 10 });
+
+    expect(engine.getSnapshot().intentVector.x).toBeGreaterThan(0.4);
+  });
+
   it("reports insecure-context diagnostics for the device backend", () => {
     const backend = createDeviceOrientationBackend({
       window: {

@@ -28,6 +28,7 @@ interface ResolvedTiltEngineOptions {
   continuousRange: number;
   smoothing: number;
   autoCalibrateOnStart: boolean;
+  autoCalibrateOnScreenOrientationChange: boolean;
   initialArmed: boolean;
   requireArmedForStep: boolean;
   screenOrientationProvider: () => number;
@@ -145,6 +146,8 @@ export class TiltEngine {
 
   private unsubscribeBackend: (() => void) | null = null;
 
+  private lastScreenAngle: number;
+
   constructor(options: TiltEngineOptions = {}) {
     this.backend = options.backend ?? createDeviceOrientationBackend();
     this.options = {
@@ -156,12 +159,15 @@ export class TiltEngine {
       continuousRange: options.continuousRange ?? 30,
       smoothing: options.smoothing ?? 0.3,
       autoCalibrateOnStart: options.autoCalibrateOnStart ?? true,
+      autoCalibrateOnScreenOrientationChange:
+        options.autoCalibrateOnScreenOrientationChange ?? true,
       initialArmed: options.initialArmed ?? false,
       requireArmedForStep: options.requireArmedForStep ?? false,
       screenOrientationProvider:
         options.screenOrientationProvider ?? defaultScreenOrientationProvider,
       now: options.now ?? (() => Date.now()),
     };
+    this.lastScreenAngle = normalizeScreenAngle(this.options.screenOrientationProvider());
 
     const availability = this.backend.getAvailability();
     const initialStatus = this.deriveInitialStatus(availability);
@@ -351,14 +357,7 @@ export class TiltEngine {
       return false;
     }
 
-    this.calibration = {
-      alpha: sample.alpha,
-      beta: sample.beta,
-      gamma: sample.gamma,
-      timestamp: sample.timestamp,
-    };
-    this.resetStepState();
-
+    this.captureCalibration(sample);
     this.updateSnapshot({
       calibrated: true,
       calibration: this.calibration,
@@ -370,6 +369,16 @@ export class TiltEngine {
       },
     });
     return true;
+  }
+
+  private captureCalibration(sample: TiltSensorSample) {
+    this.calibration = {
+      alpha: sample.alpha,
+      beta: sample.beta,
+      gamma: sample.gamma,
+      timestamp: sample.timestamp,
+    };
+    this.resetStepState();
   }
 
   confirm() {
@@ -411,16 +420,22 @@ export class TiltEngine {
   }
 
   private processSample(sample: TiltSensorSample) {
+    const screenAngle = normalizeScreenAngle(this.options.screenOrientationProvider());
+    const screenAngleChanged = screenAngle !== this.lastScreenAngle;
+
+    if (
+      screenAngleChanged &&
+      this.options.autoCalibrateOnScreenOrientationChange &&
+      this.calibration
+    ) {
+      this.captureCalibration(sample);
+    }
+    this.lastScreenAngle = screenAngle;
+
     if (!this.calibration && this.options.autoCalibrateOnStart) {
-      this.calibration = {
-        alpha: sample.alpha,
-        beta: sample.beta,
-        gamma: sample.gamma,
-        timestamp: sample.timestamp,
-      };
+      this.captureCalibration(sample);
     }
 
-    const screenAngle = this.options.screenOrientationProvider();
     const currentVector = mapOrientationToVector(
       sample.beta,
       sample.gamma,

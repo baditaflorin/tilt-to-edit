@@ -130,7 +130,7 @@ export function App({ backend }: AppProps) {
 
       <header className="hero">
         <div className="hero-copy">
-          <p className="eyebrow">Tilt To Edit v0.3.2</p>
+          <p className="eyebrow">Tilt To Edit v0.3.3</p>
           <h1>Live-device editing that feels more like steering than tapping</h1>
           <p className="hero-text">
             This integrated demo is now live-device-first. Use the motion

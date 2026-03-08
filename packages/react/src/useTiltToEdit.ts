@@ -65,6 +65,7 @@ export function useTiltToEdit(
     options.continuousRange,
     options.smoothing,
     options.autoCalibrateOnStart,
+    options.autoCalibrateOnScreenOrientationChange,
     options.initialArmed,
     options.requireArmedForStep,
     options.screenOrientationProvider,

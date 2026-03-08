@@ -1,13 +1,13 @@
 {
   "name": "@tilt-to-edit/script-tag-embed-example",
   "private": true,
-  "version": "0.3.2",
+  "version": "0.3.3",
   "type": "module",
   "scripts": {
     "build": "tsc -p tsconfig.build.json && node ./build.mjs",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
-    "@tilt-to-edit/embed": "0.3.2"
+    "@tilt-to-edit/embed": "0.3.3"
   }
 }

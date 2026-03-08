@@ -83,6 +83,7 @@ export interface TiltEngineOptions {
   continuousRange?: number | undefined;
   smoothing?: number | undefined;
   autoCalibrateOnStart?: boolean | undefined;
+  autoCalibrateOnScreenOrientationChange?: boolean | undefined;
   initialArmed?: boolean | undefined;
   requireArmedForStep?: boolean | undefined;
   screenOrientationProvider?: (() => number) | undefined;
