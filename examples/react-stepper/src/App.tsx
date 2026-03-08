@@ -75,9 +75,10 @@ export function App() {
         </section>
       ) : (
         <p className="live-note">
-          Open this page on a supported mobile browser, then use the built-in
-          controls below to enable tilt permission and calibrate your neutral
-          pose.
+          On iPhone or iPad in Safari or Chrome, scroll to the stepper below,
+          tap <strong>Enable tilt</strong>, allow{" "}
+          <strong>Motion &amp; Orientation Access</strong>, then tap{" "}
+          <strong>Calibrate</strong> before tilting left or right.
         </p>
       )}
 

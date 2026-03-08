@@ -93,4 +93,24 @@ describe("TiltEngine", () => {
     const availability = backend.getAvailability();
     expect(availability.blockedDiagnostic?.code).toBe("insecure-context");
   });
+
+  it("treats iOS-style deviceorientation support as available without a constructor", async () => {
+    const requestPermission = vi.fn(async () => "granted" as const);
+    const backend = createDeviceOrientationBackend({
+      window: {
+        isSecureContext: true,
+        document: {},
+        ondeviceorientation: null,
+        DeviceMotionEvent: {
+          requestPermission,
+        },
+      } as Window & typeof globalThis,
+    });
+
+    const availability = backend.getAvailability();
+    expect(availability.supported).toBe(true);
+    expect(availability.permissionRequired).toBe(true);
+    await expect(backend.requestPermission()).resolves.toBe("granted");
+    expect(requestPermission).toHaveBeenCalledTimes(1);
+  });
 });

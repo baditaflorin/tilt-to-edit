@@ -11,6 +11,7 @@ export interface TiltStepperProps {
   min?: number;
   max?: number;
   step?: number;
+  stepThreshold?: number;
   backend?: TiltSensorBackend;
   requireArm?: boolean;
   onCommit?: (value: number) => void;
@@ -22,6 +23,7 @@ export function TiltStepper({
   min = 0,
   max = 100,
   step = 1,
+  stepThreshold = 6,
   backend,
   requireArm = false,
   onCommit,
@@ -31,7 +33,7 @@ export function TiltStepper({
       backend,
       axisMode: "horizontal",
       smoothing: 0.75,
-      stepThreshold: 10,
+      stepThreshold,
       requireArmedForStep: requireArm,
     });
   const [draftValue, setDraftValue] = useState(value);
@@ -54,7 +56,13 @@ export function TiltStepper({
     setDraftValue((currentValue) =>
       clamp(currentValue + state.stepEvents.x.direction * step, min, max),
     );
-  }, [max, min, state.stepEvents.x.direction, state.stepEvents.x.sequence, step]);
+  }, [
+    max,
+    min,
+    state.stepEvents.x.direction,
+    state.stepEvents.x.sequence,
+    step,
+  ]);
 
   return (
     <Panel title={label}>

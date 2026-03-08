@@ -121,7 +121,7 @@ export function App() {
     <main className="page">
       <header className="hero">
         <div>
-          <p className="eyebrow">Tilt To Edit v0.2.6</p>
+          <p className="eyebrow">Tilt To Edit v0.2.7</p>
           <h1>Device tilt as intentional editing input</h1>
           <p>
             The demo runs on GitHub Pages and supports both live mobile sensors
@@ -267,8 +267,10 @@ export function App() {
             </div>
           ) : (
             <p className="live-note">
-              On a supported mobile browser, use the buttons above to request
-              permission and calibrate your neutral pose.
+              On iPhone or iPad in Safari or Chrome, use the buttons above to
+              tap <strong>Enable tilt</strong>, allow{" "}
+              <strong>Motion &amp; Orientation Access</strong>, then tap{" "}
+              <strong>Calibrate</strong> before testing the controls below.
             </p>
           )}
         </div>

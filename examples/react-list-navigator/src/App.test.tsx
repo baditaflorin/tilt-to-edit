@@ -14,6 +14,18 @@ describe("React List Navigator example", () => {
     expect(screen.getByRole("button", { name: "Live device" })).toBeInTheDocument();
   });
 
+  it("shows iPhone-specific live instructions", () => {
+    render(<App />);
+
+    fireEvent.click(screen.getByRole("button", { name: "Live device" }));
+
+    expect(
+      screen.getByText(/On iPhone or iPad in Safari or Chrome/i),
+    ).toBeInTheDocument();
+    expect(screen.getByText("Motion & Orientation Access")).toBeInTheDocument();
+    expect(screen.getAllByText("Calibrate")).toHaveLength(2);
+  });
+
   it("moves the highlighted item in simulator mode", async () => {
     render(<App />);
 

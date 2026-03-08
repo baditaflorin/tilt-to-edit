@@ -6,6 +6,14 @@ The format is based on Keep a Changelog, and this project aims to follow Semanti
 
 ## [Unreleased]
 
+## [0.2.7] - 2026-03-08
+
+### Fixed
+
+- Improved device-orientation availability detection for iOS-style environments that expose `ondeviceorientation` and permission gating through `DeviceMotionEvent.requestPermission()`.
+- Made `TiltStepper` react to smaller horizontal tilt by lowering its default discrete step threshold, which improves left-right editing on iPhone browsers.
+- Replaced the generic "supported mobile browser" copy in the live examples with explicit iPhone and iPad permission instructions.
+
 ## [0.2.6] - 2026-03-08
 
 ### Fixed

@@ -15,6 +15,10 @@ type DeviceOrientationRequestable = typeof DeviceOrientationEvent & {
   requestPermission?: () => Promise<"granted" | "denied">;
 };
 
+type DeviceMotionRequestable = typeof DeviceMotionEvent & {
+  requestPermission?: () => Promise<"granted" | "denied">;
+};
+
 function createDiagnostic(
   code: TiltDiagnostic["code"],
   message: string,
@@ -83,6 +87,32 @@ export class DeviceOrientationBackend implements TiltSensorBackend {
     return windowObject?.DeviceOrientationEvent as DeviceOrientationRequestable | undefined;
   }
 
+  private getPermissionRequester() {
+    const windowObject = this.getWindowObject();
+    const orientationConstructor = this.getRequestableConstructor();
+    if (typeof orientationConstructor?.requestPermission === "function") {
+      return orientationConstructor;
+    }
+
+    return windowObject?.DeviceMotionEvent as DeviceMotionRequestable | undefined;
+  }
+
+  private supportsOrientationEvents() {
+    const windowObject = this.getWindowObject();
+    if (!windowObject) {
+      return false;
+    }
+
+    if (this.getRequestableConstructor()) {
+      return true;
+    }
+
+    return (
+      "ondeviceorientation" in windowObject ||
+      "ondeviceorientationabsolute" in windowObject
+    );
+  }
+
   getAvailability(): TiltAvailability {
     const windowObject = this.getWindowObject();
     if (!windowObject) {
@@ -117,8 +147,7 @@ export class DeviceOrientationBackend implements TiltSensorBackend {
       };
     }
 
-    const constructorObject = this.getRequestableConstructor();
-    if (!constructorObject) {
+    if (!this.supportsOrientationEvents()) {
       return {
         supported: false,
         permissionRequired: false,
@@ -131,18 +160,19 @@ export class DeviceOrientationBackend implements TiltSensorBackend {
 
     return {
       supported: true,
-      permissionRequired: typeof constructorObject.requestPermission === "function",
+      permissionRequired:
+        typeof this.getPermissionRequester()?.requestPermission === "function",
     };
   }
 
   async requestPermission(): Promise<"granted" | "denied"> {
-    const constructorObject = this.getRequestableConstructor();
-    if (!constructorObject?.requestPermission) {
+    const permissionRequester = this.getPermissionRequester();
+    if (!permissionRequester?.requestPermission) {
       return "granted";
     }
 
     try {
-      return await constructorObject.requestPermission();
+      return await permissionRequester.requestPermission();
     } catch {
       return "denied";
     }

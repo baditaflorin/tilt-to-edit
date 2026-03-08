@@ -22,7 +22,7 @@ describe("Tilt primitives", () => {
 
     act(() => {
       simulator.emit({ beta: 0, gamma: 0, timestamp: 0 });
-      simulator.emit({ beta: 0, gamma: 20, timestamp: 10 });
+      simulator.emit({ beta: 0, gamma: 8, timestamp: 10 });
     });
 
     await waitFor(() => {
