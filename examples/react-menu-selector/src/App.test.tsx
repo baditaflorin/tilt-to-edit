@@ -8,7 +8,7 @@ function getMetricValue(label: string) {
   return screen.getByText(label).parentElement?.querySelector("strong")?.textContent;
 }
 
-describe("React List Navigator example", () => {
+describe("React Menu Selector example", () => {
   it("is live-device-first", () => {
     render(<App />);
 
@@ -20,17 +20,7 @@ describe("React List Navigator example", () => {
     ).toBeInTheDocument();
   });
 
-  it("shows iPhone-specific live instructions", () => {
-    render(<App />);
-
-    expect(
-      screen.getByText(/On iPhone or iPad in Safari or Chrome/i),
-    ).toBeInTheDocument();
-    expect(screen.getByText("Motion & Orientation Access")).toBeInTheDocument();
-    expect(screen.getAllByText("Calibrate")).toHaveLength(2);
-  });
-
-  it("moves the highlighted item from tilt samples", async () => {
+  it("browses vertically and commits with a right tilt", async () => {
     const simulator = createTiltSimulator();
 
     render(<App backend={simulator.backend} />);
@@ -41,7 +31,15 @@ describe("React List Navigator example", () => {
     });
 
     await waitFor(() => {
-      expect(getMetricValue("Highlighted")).toBe("Contrast");
+      expect(getMetricValue("Highlighted")).toBe("Ambient audio");
+    });
+
+    act(() => {
+      simulator.emit({ beta: 0, gamma: 20, timestamp: 200 });
+    });
+
+    await waitFor(() => {
+      expect(getMetricValue("Selected")).toBe("Ambient audio");
     });
   });
 });

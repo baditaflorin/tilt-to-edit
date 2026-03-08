@@ -8,7 +8,7 @@ function getMetricValue(label: string) {
   return screen.getByText(label).parentElement?.querySelector("strong")?.textContent;
 }
 
-describe("React List Navigator example", () => {
+describe("React Basic example", () => {
   it("is live-device-first", () => {
     render(<App />);
 
@@ -16,32 +16,23 @@ describe("React List Navigator example", () => {
       screen.queryByRole("button", { name: "Simulator" }),
     ).not.toBeInTheDocument();
     expect(
-      screen.getByText(/On iPhone or iPad in Safari or Chrome/i),
+      screen.getByText(/On iPhone or iPad/i),
     ).toBeInTheDocument();
   });
 
-  it("shows iPhone-specific live instructions", () => {
-    render(<App />);
-
-    expect(
-      screen.getByText(/On iPhone or iPad in Safari or Chrome/i),
-    ).toBeInTheDocument();
-    expect(screen.getByText("Motion & Orientation Access")).toBeInTheDocument();
-    expect(screen.getAllByText("Calibrate")).toHaveLength(2);
-  });
-
-  it("moves the highlighted item from tilt samples", async () => {
+  it("shows normalized intent from tilt samples", async () => {
     const simulator = createTiltSimulator();
 
     render(<App backend={simulator.backend} />);
 
     act(() => {
       simulator.emit({ beta: 0, gamma: 0, timestamp: 0 });
-      simulator.emit({ beta: 20, gamma: 0, timestamp: 10 });
+      simulator.emit({ beta: 0, gamma: 20, timestamp: 10 });
+      simulator.emit({ beta: 0, gamma: 20, timestamp: 20 });
     });
 
     await waitFor(() => {
-      expect(getMetricValue("Highlighted")).toBe("Contrast");
+      expect(getMetricValue("Intent X")).not.toBe("0.00");
     });
   });
 });

@@ -16,7 +16,7 @@ const demos = [
     slug: "demo",
     title: "Integrated Demo",
     description:
-      "One shell that combines the sensor console, simulator, stepper, slider, and list navigator.",
+      "One live-device shell that combines telemetry, stepper, slider, list navigation, and hybrid menu selection.",
     workspace: "@tilt-to-edit/demo",
     distDir: resolve("apps/demo/dist"),
     kind: "Primary demo",
@@ -36,7 +36,7 @@ const demos = [
     slug: "stepper",
     title: "React Stepper",
     description:
-      "Discrete left-right tilt editing with step events and explicit confirmation.",
+      "Discrete left-right tilt editing with smaller step thresholds and explicit confirmation.",
     workspace: "@tilt-to-edit/react-stepper-example",
     distDir: resolve("examples/react-stepper/dist"),
     kind: "Discrete control",
@@ -51,6 +51,16 @@ const demos = [
     distDir: resolve("examples/react-list-navigator/dist"),
     kind: "Navigation example",
     publicUrl: `${siteRoot}/list/`,
+  },
+  {
+    slug: "menu",
+    title: "React Menu Selector",
+    description:
+      "Browse vertically, tilt right to commit, and tilt left to return to the current selection.",
+    workspace: "@tilt-to-edit/react-menu-selector-example",
+    distDir: resolve("examples/react-menu-selector/dist"),
+    kind: "Hybrid control",
+    publicUrl: `${siteRoot}/menu/`,
   },
 ];
 
@@ -117,12 +127,12 @@ async function createLandingPage() {
     <title>Tilt To Edit Demos</title>
     <style>
       :root {
-        color-scheme: light;
-        --ink: #10233d;
-        --muted: #475569;
-        --panel: rgba(255, 255, 255, 0.84);
-        --accent: #c2410c;
-        --line: rgba(15, 23, 42, 0.08);
+        color-scheme: dark;
+        --ink: #f8fafc;
+        --muted: rgba(226, 232, 240, 0.72);
+        --panel: linear-gradient(150deg, rgba(9, 22, 41, 0.84), rgba(31, 18, 48, 0.68));
+        --accent: #fbbf24;
+        --line: rgba(255, 255, 255, 0.08);
       }
 
       * {
@@ -131,12 +141,13 @@ async function createLandingPage() {
 
       body {
         margin: 0;
-        font-family: "Avenir Next", "Segoe UI", sans-serif;
+        font-family: "Avenir Next", "Trebuchet MS", sans-serif;
         color: var(--ink);
         background:
-          radial-gradient(circle at top left, rgba(245, 158, 11, 0.2), transparent 28%),
-          radial-gradient(circle at right 20%, rgba(14, 165, 233, 0.14), transparent 24%),
-          linear-gradient(180deg, #f8fbff 0%, #edf4f7 100%);
+          radial-gradient(circle at top left, rgba(251, 191, 36, 0.16), transparent 28%),
+          radial-gradient(circle at right 20%, rgba(56, 189, 248, 0.16), transparent 24%),
+          radial-gradient(circle at 50% 100%, rgba(236, 72, 153, 0.14), transparent 30%),
+          linear-gradient(180deg, #07111f 0%, #0f1d33 44%, #190f2f 100%);
       }
 
       main {
@@ -148,7 +159,7 @@ async function createLandingPage() {
       .hero {
         display: grid;
         gap: 1rem;
-        margin-bottom: 2rem;
+        margin-bottom: 2.2rem;
       }
 
       .eyebrow {
@@ -162,8 +173,9 @@ async function createLandingPage() {
       h1 {
         margin: 0;
         max-width: 12ch;
-        font-size: clamp(2.8rem, 7vw, 5rem);
-        line-height: 0.94;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: clamp(3rem, 8vw, 5.2rem);
+        line-height: 0.92;
       }
 
       .hero p:last-child {
@@ -187,17 +199,18 @@ async function createLandingPage() {
         color: inherit;
         background: var(--panel);
         border: 1px solid var(--line);
-        border-radius: 24px;
+        border-radius: 28px;
         padding: 1.4rem;
-        box-shadow: 0 24px 60px rgba(15, 23, 42, 0.08);
+        box-shadow: 0 28px 70px rgba(4, 10, 22, 0.36);
         transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+        backdrop-filter: blur(16px);
       }
 
       .card:hover,
       .card:focus-visible {
         transform: translateY(-3px);
-        box-shadow: 0 28px 64px rgba(15, 23, 42, 0.12);
-        border-color: rgba(194, 65, 12, 0.24);
+        box-shadow: 0 34px 80px rgba(4, 10, 22, 0.42);
+        border-color: rgba(251, 191, 36, 0.32);
       }
 
       .card h2 {
@@ -229,6 +242,7 @@ async function createLandingPage() {
 
       .card span {
         font-weight: 600;
+        color: #fff7ed;
       }
 
       .qr-block {
@@ -275,7 +289,7 @@ async function createLandingPage() {
   <body>
     <main>
       <section class="hero">
-        <p class="eyebrow">Tilt To Edit v0.2.7</p>
+        <p class="eyebrow">Tilt To Edit v0.2.8</p>
         <h1>Choose a demo from the root page</h1>
         <p>
           GitHub Pages now publishes the integrated demo and each focused example

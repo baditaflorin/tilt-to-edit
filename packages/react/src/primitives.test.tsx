@@ -4,6 +4,7 @@ import { useState } from "react";
 import { createTiltSimulator } from "@tilt-to-edit/core";
 
 import { TiltListNavigator } from "./TiltListNavigator";
+import { TiltMenuSelector } from "./TiltMenuSelector";
 import { TiltSlider } from "./TiltSlider";
 import { TiltStepper } from "./TiltStepper";
 
@@ -121,5 +122,44 @@ describe("Tilt primitives", () => {
 
     fireEvent.click(screen.getByRole("button", { name: "Confirm" }));
     expect(onCommit).toHaveBeenCalledWith(1, "Beta");
+  });
+
+  it("browses vertically and commits with a right tilt", async () => {
+    const simulator = createTiltSimulator();
+
+    function Wrapper() {
+      const [selectedIndex, setSelectedIndex] = useState(0);
+
+      return (
+        <TiltMenuSelector
+          backend={simulator.backend}
+          items={["Alpha", "Beta", "Gamma"]}
+          onCommit={(index) => {
+            setSelectedIndex(index);
+          }}
+          selectedIndex={selectedIndex}
+        />
+      );
+    }
+
+    render(<Wrapper />);
+
+    act(() => {
+      simulator.emit({ beta: 0, gamma: 0, timestamp: 0 });
+      simulator.emit({ beta: 20, gamma: 0, timestamp: 10 });
+    });
+
+    await waitFor(() => {
+      expect(getMetricValue("Highlighted")).toBe("Beta");
+    });
+
+    act(() => {
+      simulator.emit({ beta: 0, gamma: 20, timestamp: 200 });
+    });
+
+    await waitFor(() => {
+      expect(getMetricValue("Selected")).toBe("Beta");
+      expect(getMetricValue("Action")).toBe("committed");
+    });
   });
 });

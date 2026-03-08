@@ -1,40 +1,39 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import {
   createDeviceOrientationBackend,
-  createTiltSimulator,
+  type TiltSensorBackend,
 } from "@tilt-to-edit/core";
 import { useTiltToEdit } from "@tilt-to-edit/react";
 
-export function App() {
-  const [mode, setMode] = useState<"simulator" | "live">("simulator");
-  const [beta, setBeta] = useState(0);
-  const [gamma, setGamma] = useState(0);
-  const [simulator] = useState(() => createTiltSimulator());
-  const [liveBackend] = useState(() => createDeviceOrientationBackend());
-  const backend = mode === "simulator" ? simulator.backend : liveBackend;
+export interface AppProps {
+  backend?: TiltSensorBackend;
+}
+
+export function App({ backend }: AppProps) {
+  const [liveBackend] = useState<TiltSensorBackend>(
+    () => backend ?? createDeviceOrientationBackend(),
+  );
+  const resolvedBackend = backend ?? liveBackend;
   const { state, requestPermission, calibrate, pause, resume, confirm, setArmed } =
     useTiltToEdit({
-      backend,
+      backend: resolvedBackend,
       axisMode: "both",
       smoothing: 0.25,
     });
 
-  useEffect(() => {
-    if (mode !== "simulator") {
-      return;
-    }
-    simulator.emit({ beta, gamma });
-  }, [beta, gamma, mode, simulator]);
-
   return (
     <main className="shell">
+      <div className="halo halo-a" aria-hidden="true" />
+      <div className="halo halo-b" aria-hidden="true" />
+
       <header className="hero">
-        <p className="eyebrow">Example</p>
+        <p className="eyebrow">Hook Surface</p>
         <h1>React Basic</h1>
         <p>
-          This example uses the raw hook surface to show permission handling,
-          calibration, normalized intent, and confirmation state.
+          This example exposes the raw hook state directly, so you can see the
+          permission flow, calibration state, live intent vectors, and
+          confirmation sequence without a higher-level primitive in the way.
         </p>
         <a className="back-link" href="../">
           View all demos
@@ -42,57 +41,19 @@ export function App() {
       </header>
 
       <section className="card">
-        <div className="row">
-          <button
-            className={mode === "simulator" ? "active" : ""}
-            onClick={() => {
-              setMode("simulator");
-            }}
-            type="button"
-          >
-            Simulator
-          </button>
-          <button
-            className={mode === "live" ? "active" : ""}
-            onClick={() => {
-              setMode("live");
-            }}
-            type="button"
-          >
-            Live device
-          </button>
+        <div className="card-head">
+          <div>
+            <p className="micro-label">Live device only</p>
+            <h2>Permission and calibration console</h2>
+          </div>
+          <strong className={`status-badge status-${state.status}`}>{state.status}</strong>
         </div>
 
-        {mode === "simulator" ? (
-          <div className="simulator">
-            <label>
-              Beta
-              <input
-                max="45"
-                min="-45"
-                onChange={(event) => {
-                  setBeta(Number(event.currentTarget.value));
-                }}
-                type="range"
-                value={beta}
-              />
-              <span>{beta.toFixed(0)} deg</span>
-            </label>
-            <label>
-              Gamma
-              <input
-                max="45"
-                min="-45"
-                onChange={(event) => {
-                  setGamma(Number(event.currentTarget.value));
-                }}
-                type="range"
-                value={gamma}
-              />
-              <span>{gamma.toFixed(0)} deg</span>
-            </label>
-          </div>
-        ) : null}
+        <p className="helper-copy">
+          On iPhone or iPad, tap <strong>Enable tilt</strong>, allow{" "}
+          <strong>Motion &amp; Orientation Access</strong>, then hold the phone
+          naturally and tap <strong>Calibrate</strong>.
+        </p>
 
         <div className="stats">
           <div>
@@ -110,6 +71,25 @@ export function App() {
           <div>
             <span>Confirmations</span>
             <strong>{state.confirmationSequence}</strong>
+          </div>
+        </div>
+
+        <div className="stats secondary">
+          <div>
+            <span>Permission</span>
+            <strong>{state.permissionState}</strong>
+          </div>
+          <div>
+            <span>Armed</span>
+            <strong>{state.armed ? "yes" : "no"}</strong>
+          </div>
+          <div>
+            <span>Calibrated</span>
+            <strong>{state.calibrated ? "yes" : "no"}</strong>
+          </div>
+          <div>
+            <span>Backend</span>
+            <strong>{state.backend}</strong>
           </div>
         </div>
 

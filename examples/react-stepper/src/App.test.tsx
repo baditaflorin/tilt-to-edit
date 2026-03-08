@@ -1,4 +1,6 @@
-import { act, fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { act, render, screen, waitFor } from "@testing-library/react";
+
+import { createTiltSimulator } from "@tilt-to-edit/core";
 
 import { App } from "./App";
 
@@ -7,17 +9,19 @@ function getMetricValue(label: string) {
 }
 
 describe("React Stepper example", () => {
-  it("offers simulator and live device modes", () => {
+  it("is live-device-first", () => {
     render(<App />);
 
-    expect(screen.getByRole("button", { name: "Simulator" })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Live device" })).toBeInTheDocument();
+    expect(
+      screen.queryByRole("button", { name: "Simulator" }),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.getByText(/On iPhone or iPad in Safari or Chrome/i),
+    ).toBeInTheDocument();
   });
 
   it("shows iPhone-specific live instructions", () => {
     render(<App />);
-
-    fireEvent.click(screen.getByRole("button", { name: "Live device" }));
 
     expect(
       screen.getByText(/On iPhone or iPad in Safari or Chrome/i),
@@ -26,13 +30,14 @@ describe("React Stepper example", () => {
     expect(screen.getAllByText("Calibrate")).toHaveLength(2);
   });
 
-  it("updates the stepper draft in simulator mode", async () => {
-    render(<App />);
+  it("updates the stepper draft from tilt samples", async () => {
+    const simulator = createTiltSimulator();
+
+    render(<App backend={simulator.backend} />);
 
     act(() => {
-      fireEvent.change(screen.getByRole("slider"), {
-        target: { value: "20" },
-      });
+      simulator.emit({ beta: 0, gamma: 0, timestamp: 0 });
+      simulator.emit({ beta: 0, gamma: 8, timestamp: 10 });
     });
 
     await waitFor(() => {

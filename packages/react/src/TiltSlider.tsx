@@ -47,7 +47,11 @@ export function TiltSlider({
   }, [max, min, requireArm, sensitivity, state.armed, state.intentVector.x, value]);
 
   return (
-    <Panel title={label}>
+    <Panel
+      title={label}
+      eyebrow="Continuous editing"
+      description="Treat tilt like a soft analog control: preview continuously, then explicitly confirm the new value."
+    >
       <Metrics label="Status" value={formatStatus(state)} />
       <Metrics label="Committed" value={value.toFixed(2)} />
       <Metrics label="Draft" value={draftValue.toFixed(2)} />
@@ -57,6 +61,7 @@ export function TiltSlider({
         max={max}
         min={min}
         readOnly
+        style={{ width: "100%", marginTop: "6px" }}
         type="range"
         value={draftValue}
       />

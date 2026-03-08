@@ -54,21 +54,65 @@ export function TiltListNavigator({
   }, [items.length, state.stepEvents.y.direction, state.stepEvents.y.sequence]);
 
   return (
-    <Panel title={label}>
+    <Panel
+      title={label}
+      eyebrow="Vertical browse"
+      description="Move through the list with stable tilt zones, then confirm separately when the highlight lands where you want."
+    >
       <Metrics label="Status" value={formatStatus(state)} />
       <Metrics label="Selected" value={items[selectedIndex] ?? "n/a"} />
       <Metrics label="Highlighted" value={items[highlightedIndex] ?? "n/a"} />
       <Metrics label="Intent Y" value={state.intentVector.y.toFixed(2)} />
-      <ol style={{ marginTop: "12px", paddingLeft: "20px" }}>
+      <ol
+        style={{
+          marginTop: "16px",
+          paddingLeft: "0",
+          listStyle: "none",
+          display: "grid",
+          gap: "10px",
+        }}
+      >
         {items.map((item, index) => (
           <li
             key={item}
             style={{
-              fontWeight: index === highlightedIndex ? 700 : 400,
-              color: index === selectedIndex ? "#8a1c1c" : "#1f2937",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              gap: "12px",
+              padding: "12px 14px",
+              borderRadius: "18px",
+              border:
+                index === highlightedIndex
+                  ? "1px solid rgba(255, 191, 36, 0.65)"
+                  : "1px solid rgba(255, 255, 255, 0.12)",
+              background:
+                index === highlightedIndex
+                  ? "linear-gradient(135deg, rgba(255, 218, 121, 0.24), rgba(255, 255, 255, 0.12))"
+                  : "rgba(255, 255, 255, 0.05)",
+              color: index === selectedIndex ? "#fff7ed" : "rgba(248, 250, 252, 0.92)",
+              boxShadow:
+                index === highlightedIndex
+                  ? "0 18px 34px rgba(245, 158, 11, 0.14)"
+                  : "none",
             }}
           >
-            {item}
+            <span style={{ fontWeight: index === highlightedIndex ? 700 : 500 }}>
+              {item}
+            </span>
+            <span
+              style={{
+                fontSize: "0.75rem",
+                letterSpacing: "0.12em",
+                textTransform: "uppercase",
+                color:
+                  index === selectedIndex
+                    ? "#fbbf24"
+                    : "rgba(255, 255, 255, 0.48)",
+              }}
+            >
+              {index === selectedIndex ? "Live" : index === highlightedIndex ? "Focus" : ""}
+            </span>
           </li>
         ))}
       </ol>

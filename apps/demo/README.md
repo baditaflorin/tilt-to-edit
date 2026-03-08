@@ -6,7 +6,7 @@ Implemented goals:
 
 - run as a static site so it can be deployed to GitHub Pages
 - mirror the core example scenarios in one place
-- support both live mobile sensors and a desktop simulator mode
+- focus on live mobile sensors and real permission/calibration flows
 - act as the primary manual QA surface before releases
 - provide a Docker image target for server-side deployment
 

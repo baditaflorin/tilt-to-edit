@@ -6,6 +6,19 @@ The format is based on Keep a Changelog, and this project aims to follow Semanti
 
 ## [Unreleased]
 
+## [0.2.8] - 2026-03-08
+
+### Added
+
+- `TiltMenuSelector`, a hybrid control that browses vertically, commits with a right tilt, and returns to the current selection with a left tilt.
+- A new `React Menu Selector` example and Pages entry point at `/menu/`.
+- Test-only backend injection across the public demos and examples so simulator coverage remains available without exposing simulator UI.
+
+### Changed
+
+- Removed simulator controls from the public demo and example applications so the published experiences focus on live-device behavior.
+- Refreshed the demo and example visual design with a darker, more atmospheric presentation.
+
 ## [0.2.7] - 2026-03-08
 
 ### Fixed

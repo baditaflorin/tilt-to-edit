@@ -4,14 +4,16 @@ import {
   createDeviceOrientationBackend,
   type TiltSensorBackend,
 } from "@tilt-to-edit/core";
-import { TiltStepper } from "@tilt-to-edit/react";
+import { TiltMenuSelector } from "@tilt-to-edit/react";
+
+const ITEMS = ["Brightness", "Contrast", "Theme", "Ambient audio", "Focus mode"];
 
 export interface AppProps {
   backend?: TiltSensorBackend;
 }
 
 export function App({ backend }: AppProps) {
-  const [value, setValue] = useState(12);
+  const [selectedIndex, setSelectedIndex] = useState(2);
   const [liveBackend] = useState<TiltSensorBackend>(
     () => backend ?? createDeviceOrientationBackend(),
   );
@@ -23,11 +25,12 @@ export function App({ backend }: AppProps) {
       <div className="halo halo-b" aria-hidden="true" />
 
       <header>
-        <p className="eyebrow">Discrete Control</p>
-        <h1>React Stepper</h1>
+        <p className="eyebrow">Hybrid Control</p>
+        <h1>React Menu Selector</h1>
         <p>
-          This example focuses on left-right tilt for stepping a value, while
-          keeping explicit confirmation so accidental drift does not commit.
+          This example combines browsing and selection in one gesture language:
+          tilt up or down to move focus, tilt right to select, and tilt left to
+          return to the last committed item.
         </p>
         <a className="back-link" href="../">
           View all demos
@@ -37,22 +40,23 @@ export function App({ backend }: AppProps) {
       <section className="hero-card">
         <div>
           <p className="micro-label">Gesture recipe</p>
-          <h2>Lean to change, confirm to commit</h2>
+          <h2>Right means keep it, left means back out</h2>
           <p>
             On iPhone or iPad in Safari or Chrome, tap <strong>Enable tilt</strong>,
             allow <strong>Motion &amp; Orientation Access</strong>, then tap{" "}
-            <strong>Calibrate</strong>. A small left or right lean will step the
-            draft value.
+            <strong>Calibrate</strong>. Browse vertically, then make a short
+            right lean to commit the focused item.
           </p>
         </div>
       </section>
 
-      <TiltStepper
+      <TiltMenuSelector
         backend={resolvedBackend}
-        onCommit={(nextValue) => {
-          setValue(nextValue);
+        items={ITEMS}
+        onCommit={(index) => {
+          setSelectedIndex(index);
         }}
-        value={value}
+        selectedIndex={selectedIndex}
       />
     </main>
   );

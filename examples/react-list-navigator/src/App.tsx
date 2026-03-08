@@ -1,91 +1,57 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import {
   createDeviceOrientationBackend,
-  createTiltSimulator,
+  type TiltSensorBackend,
 } from "@tilt-to-edit/core";
 import { TiltListNavigator } from "@tilt-to-edit/react";
 
 const ITEMS = ["Speed", "Brightness", "Contrast", "Theme"];
 
-export function App() {
-  const [mode, setMode] = useState<"simulator" | "live">("simulator");
+export interface AppProps {
+  backend?: TiltSensorBackend;
+}
+
+export function App({ backend }: AppProps) {
   const [selectedIndex, setSelectedIndex] = useState(1);
-  const [beta, setBeta] = useState(0);
-  const [simulator] = useState(() => createTiltSimulator());
-  const [liveBackend] = useState(() => createDeviceOrientationBackend());
-  const backend = mode === "simulator" ? simulator.backend : liveBackend;
-
-  useEffect(() => {
-    if (mode !== "simulator") {
-      return;
-    }
-
-    simulator.emit({ beta, gamma: 0 });
-  }, [beta, mode, simulator]);
+  const [liveBackend] = useState<TiltSensorBackend>(
+    () => backend ?? createDeviceOrientationBackend(),
+  );
+  const resolvedBackend = backend ?? liveBackend;
 
   return (
     <main className="shell">
+      <div className="halo halo-a" aria-hidden="true" />
+      <div className="halo halo-b" aria-hidden="true" />
+
       <header>
-        <p className="eyebrow">Example</p>
+        <p className="eyebrow">Browse Control</p>
         <h1>React List Navigator</h1>
         <p>
-          This example focuses on discrete vertical navigation with a separate
-          confirmation step.
+          This example focuses on vertical browsing with a separate commit step,
+          which keeps list movement stable even when you are holding the phone
+          one-handed.
         </p>
         <a className="back-link" href="../">
           View all demos
         </a>
       </header>
 
-      <section className="mode-switch">
-        <button
-          className={mode === "simulator" ? "active" : ""}
-          onClick={() => {
-            setMode("simulator");
-          }}
-          type="button"
-        >
-          Simulator
-        </button>
-        <button
-          className={mode === "live" ? "active" : ""}
-          onClick={() => {
-            setMode("live");
-          }}
-          type="button"
-        >
-          Live device
-        </button>
+      <section className="hero-card">
+        <div>
+          <p className="micro-label">Gesture recipe</p>
+          <h2>Browse first, confirm second</h2>
+          <p>
+            On iPhone or iPad in Safari or Chrome, tap <strong>Enable tilt</strong>,
+            allow <strong>Motion &amp; Orientation Access</strong>, then tap{" "}
+            <strong>Calibrate</strong>. Tilt up or down to move the highlight
+            through the list.
+          </p>
+        </div>
       </section>
 
-      {mode === "simulator" ? (
-        <section className="simulator">
-          <label>
-            Beta
-            <input
-              max="45"
-              min="-45"
-              onChange={(event) => {
-                setBeta(Number(event.currentTarget.value));
-              }}
-              type="range"
-              value={beta}
-            />
-            <span>{beta.toFixed(0)} deg</span>
-          </label>
-        </section>
-      ) : (
-        <p className="live-note">
-          On iPhone or iPad in Safari or Chrome, scroll to the list navigator
-          below, tap <strong>Enable tilt</strong>, allow{" "}
-          <strong>Motion &amp; Orientation Access</strong>, then tap{" "}
-          <strong>Calibrate</strong> before tilting up or down.
-        </p>
-      )}
-
       <TiltListNavigator
-        backend={backend}
+        backend={resolvedBackend}
         items={ITEMS}
         onCommit={(index) => {
           setSelectedIndex(index);

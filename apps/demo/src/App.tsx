@@ -1,18 +1,18 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import {
   createDeviceOrientationBackend,
-  createTiltSimulator,
   type TiltSensorBackend,
 } from "@tilt-to-edit/core";
 import {
   TiltListNavigator,
+  TiltMenuSelector,
   TiltSlider,
   TiltStepper,
   useTiltToEdit,
 } from "@tilt-to-edit/react";
 
-const LIST_ITEMS = ["Speed", "Brightness", "Contrast", "Theme"];
+const MENU_ITEMS = ["Brightness", "Contrast", "Theme", "Focus mode", "Volume"];
 
 function clamp(value: number, min: number, max: number) {
   return Math.min(max, Math.max(min, value));
@@ -39,15 +39,19 @@ function LiveSliderMonitor({
   const previewValue = clamp(value + state.intentVector.x * sensitivity, min, max);
 
   return (
-    <div className="card live-slider-monitor">
-      <div className="live-slider-header">
+    <div className="aurora-card live-slider-monitor">
+      <div className="section-head">
         <div>
+          <p className="micro-label">Always visible</p>
           <h2>Live Slider Monitor</h2>
-          <p>Keep this visible while you test live tilt on mobile.</p>
+          <p>
+            Keep this near the top of the page while testing live tilt on your
+            phone.
+          </p>
         </div>
-        <strong>{state.status}</strong>
+        <strong className={`status-badge status-${state.status}`}>{state.status}</strong>
       </div>
-      <div className="live-slider-metrics">
+      <div className="metric-strip">
         <div>
           <span>Intent X</span>
           <strong>{state.intentVector.x.toFixed(2)}</strong>
@@ -69,7 +73,7 @@ function LiveSliderMonitor({
         type="range"
         value={previewValue}
       />
-      <div className="actions">
+      <div className="action-row">
         {state.status === "needs-permission" ? (
           <button
             onClick={() => {
@@ -93,89 +97,59 @@ function LiveSliderMonitor({
   );
 }
 
-export function App() {
-  const [mode, setMode] = useState<"simulator" | "live">("simulator");
-  const [beta, setBeta] = useState(0);
-  const [gamma, setGamma] = useState(0);
-  const [simulator] = useState(() => createTiltSimulator());
-  const [liveBackend] = useState(() => createDeviceOrientationBackend());
+export interface AppProps {
+  backend?: TiltSensorBackend;
+}
+
+export function App({ backend }: AppProps) {
+  const [liveBackend] = useState<TiltSensorBackend>(
+    () => backend ?? createDeviceOrientationBackend(),
+  );
   const [stepperValue, setStepperValue] = useState(6);
   const [sliderValue, setSliderValue] = useState(42);
   const [selectedIndex, setSelectedIndex] = useState(1);
-  const backend = mode === "simulator" ? simulator.backend : liveBackend;
-  const { state, requestPermission, calibrate, pause, resume, confirm, setArmed } =
-    useTiltToEdit({
-      backend,
-      axisMode: "both",
-      smoothing: 0.25,
-    });
-
-  useEffect(() => {
-    if (mode !== "simulator") {
-      return;
-    }
-    simulator.emit({ beta, gamma });
-  }, [beta, gamma, mode, simulator]);
+  const [menuSelection, setMenuSelection] = useState(2);
+  const resolvedBackend = backend ?? liveBackend;
+  const { state, requestPermission, calibrate, pause, resume } = useTiltToEdit({
+    backend: resolvedBackend,
+    axisMode: "both",
+    smoothing: 0.25,
+  });
 
   return (
     <main className="page">
-      <header className="hero">
-        <div>
-          <p className="eyebrow">Tilt To Edit v0.2.7</p>
-          <h1>Device tilt as intentional editing input</h1>
-          <p>
-            The demo runs on GitHub Pages and supports both live mobile sensors
-            and a desktop simulator. It exercises the core engine, React hook,
-            and first-party UI primitives together.
-          </p>
-          <a className="back-link" href="../">
-            View all demos
-          </a>
-        </div>
-        <div className="mode-switch">
-          <button
-            className={mode === "simulator" ? "active" : ""}
-            onClick={() => {
-              setMode("simulator");
-            }}
-            type="button"
-          >
-            Simulator
-          </button>
-          <button
-            className={mode === "live" ? "active" : ""}
-            onClick={() => {
-              setMode("live");
-            }}
-            type="button"
-          >
-            Live device
-          </button>
-        </div>
-      </header>
+      <div className="backdrop backdrop-one" aria-hidden="true" />
+      <div className="backdrop backdrop-two" aria-hidden="true" />
 
-      <section className="console">
-        <div className="card">
-          <h2>Sensor Console</h2>
-          <div className="metrics">
-            <div>
-              <span>Status</span>
-              <strong>{state.status}</strong>
-            </div>
-            <div>
-              <span>Intent X</span>
-              <strong>{state.intentVector.x.toFixed(2)}</strong>
-            </div>
-            <div>
-              <span>Intent Y</span>
-              <strong>{state.intentVector.y.toFixed(2)}</strong>
-            </div>
-            <div>
-              <span>Confirmations</span>
-              <strong>{state.confirmationSequence}</strong>
-            </div>
+      <header className="hero">
+        <div className="hero-copy">
+          <p className="eyebrow">Tilt To Edit v0.2.8</p>
+          <h1>Live-device editing that feels more like steering than tapping</h1>
+          <p className="hero-text">
+            This integrated demo is now live-device-first. Use the motion
+            permission ritual once, calibrate a neutral pose, then explore
+            discrete edits, continuous edits, list browsing, and a new
+            browse-to-select hybrid menu.
+          </p>
+          <div className="hero-actions">
+            <a className="back-link" href="../">
+              View all demos
+            </a>
+            <span className={`status-badge status-${state.status}`}>
+              {state.status}
+            </span>
           </div>
-          <div className="actions">
+        </div>
+
+        <div className="hero-panel aurora-card">
+          <p className="micro-label">Mobile ritual</p>
+          <ol>
+            <li>Tap <strong>Enable tilt</strong>.</li>
+            <li>Allow <strong>Motion &amp; Orientation Access</strong>.</li>
+            <li>Hold the phone naturally and tap <strong>Calibrate</strong>.</li>
+            <li>Browse with vertical tilt. Commit with buttons or right-tilt selection.</li>
+          </ol>
+          <div className="action-row">
             {state.status === "needs-permission" ? (
               <button
                 onClick={() => {
@@ -194,30 +168,58 @@ export function App() {
             >
               Calibrate
             </button>
-            <button
-              onClick={() => {
-                setArmed(!state.armed);
-              }}
-              type="button"
-            >
-              {state.armed ? "Disarm" : "Arm"}
-            </button>
-            <button
-              onClick={() => {
-                state.status === "active" ? pause() : void resume();
-              }}
-              type="button"
-            >
-              {state.status === "active" ? "Pause" : "Resume"}
-            </button>
-            <button
-              onClick={() => {
-                confirm();
-              }}
-              type="button"
-            >
-              Confirm
-            </button>
+            {state.status === "active" ? (
+              <button
+                onClick={() => {
+                  pause();
+                }}
+                type="button"
+              >
+                Pause
+              </button>
+            ) : (
+              <button
+                onClick={() => {
+                  void resume();
+                }}
+                type="button"
+              >
+                Resume
+              </button>
+            )}
+          </div>
+        </div>
+      </header>
+
+      <section className="console-grid">
+        <div className="aurora-card">
+          <div className="section-head">
+            <div>
+              <p className="micro-label">Sensor console</p>
+              <h2>Intent telemetry</h2>
+              <p>
+                These values come from the same live backend used by every
+                control below.
+              </p>
+            </div>
+          </div>
+          <div className="metric-strip">
+            <div>
+              <span>Status</span>
+              <strong>{state.status}</strong>
+            </div>
+            <div>
+              <span>Intent X</span>
+              <strong>{state.intentVector.x.toFixed(2)}</strong>
+            </div>
+            <div>
+              <span>Intent Y</span>
+              <strong>{state.intentVector.y.toFixed(2)}</strong>
+            </div>
+            <div>
+              <span>Confirmations</span>
+              <strong>{state.confirmationSequence}</strong>
+            </div>
           </div>
           {state.diagnostics.length > 0 ? (
             <ul className="diagnostics">
@@ -230,78 +232,39 @@ export function App() {
           ) : null}
         </div>
 
-        <div className="card">
-          <h2>Input Mode</h2>
-          <p>
-            The same backend instance is shared across the example controls
-            below, which makes the demo representative of a real app shell.
-          </p>
-          {mode === "simulator" ? (
-            <div className="simulator">
-              <label>
-                Beta
-                <input
-                  max="45"
-                  min="-45"
-                  onChange={(event) => {
-                    setBeta(Number(event.currentTarget.value));
-                  }}
-                  type="range"
-                  value={beta}
-                />
-                <span>{beta.toFixed(0)} deg</span>
-              </label>
-              <label>
-                Gamma
-                <input
-                  max="45"
-                  min="-45"
-                  onChange={(event) => {
-                    setGamma(Number(event.currentTarget.value));
-                  }}
-                  type="range"
-                  value={gamma}
-                />
-                <span>{gamma.toFixed(0)} deg</span>
-              </label>
-            </div>
-          ) : (
-            <p className="live-note">
-              On iPhone or iPad in Safari or Chrome, use the buttons above to
-              tap <strong>Enable tilt</strong>, allow{" "}
-              <strong>Motion &amp; Orientation Access</strong>, then tap{" "}
-              <strong>Calibrate</strong> before testing the controls below.
-            </p>
-          )}
-        </div>
-
-        {mode === "live" ? (
-          <LiveSliderMonitor backend={backend} value={sliderValue} />
-        ) : null}
+        <LiveSliderMonitor backend={resolvedBackend} value={sliderValue} />
       </section>
 
-      <section className="grid">
+      <section className="showcase-grid">
         <TiltStepper
-          backend={backend}
+          backend={resolvedBackend}
           onCommit={(nextValue) => {
             setStepperValue(nextValue);
           }}
           value={stepperValue}
         />
         <TiltSlider
-          backend={backend}
+          backend={resolvedBackend}
           onCommit={(nextValue) => {
             setSliderValue(nextValue);
           }}
           value={sliderValue}
         />
         <TiltListNavigator
-          backend={backend}
-          items={LIST_ITEMS}
+          backend={resolvedBackend}
+          items={MENU_ITEMS}
           onCommit={(index) => {
             setSelectedIndex(index);
           }}
           selectedIndex={selectedIndex}
+        />
+        <TiltMenuSelector
+          backend={resolvedBackend}
+          items={MENU_ITEMS}
+          onCommit={(index) => {
+            setMenuSelection(index);
+          }}
+          selectedIndex={menuSelection}
         />
       </section>
     </main>

@@ -65,7 +65,11 @@ export function TiltStepper({
   ]);
 
   return (
-    <Panel title={label}>
+    <Panel
+      title={label}
+      eyebrow="Discrete editing"
+      description="Lean left or right to step the draft value, then confirm when the number feels right."
+    >
       <Metrics label="Status" value={formatStatus(state)} />
       <Metrics label="Committed" value={value} />
       <Metrics label="Draft" value={draftValue} />
