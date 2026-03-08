@@ -6,6 +6,18 @@ The format is based on Keep a Changelog, and this project aims to follow Semanti
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-03-08
+
+### Added
+
+- Added `ADR 0011`, which commits the project to a script-tag browser embed surface built on Shadow DOM and custom events.
+- Added `@tilt-to-edit/embed`, a new package that ships an ESM bundle, an IIFE bundle for `<script src="...">`, declarative auto-mounting, and the global `window.TiltToEdit` API.
+- Added a new public `/embed/` example that uses the browser bundle to drive a host-page scene remix and auto-mounted menu widget without React.
+
+### Changed
+
+- Expanded the build, typecheck, Pages, and versioning pipeline so the embed package and the new example ship alongside the existing React surfaces.
+
 ## [0.2.13] - 2026-03-08
 
 ### Added

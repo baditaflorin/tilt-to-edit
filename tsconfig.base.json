@@ -24,6 +24,9 @@
       "@tilt-to-edit/core": [
         "packages/core/src/index.ts"
       ],
+      "@tilt-to-edit/embed": [
+        "packages/embed/src/index.ts"
+      ],
       "@tilt-to-edit/react": [
         "packages/react/src/index.ts"
       ]

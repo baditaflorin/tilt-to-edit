@@ -5,6 +5,7 @@ This directory contains focused example applications that demonstrate how to con
 Implemented examples:
 
 - `react-basic`: permission flow, calibration, normalized intent, and confirmation state
+- `script-tag-embed`: browser-only `<script>` integration with host-page events and declarative auto-mounting
 - `react-stepper`: increment and decrement editing with explicit confirmation
 - `react-list-navigator`: compare stable list navigation with the hybrid menu selector on one page
 - `react-menu-selector`: browse vertically, tilt right to commit, tilt left to return to the current selection

@@ -2,7 +2,7 @@ import { cp, mkdir, rm } from "node:fs/promises";
 import { resolve } from "node:path";
 
 const sourceRoot = resolve("pages-dist");
-const targets = ["basic", "demo", "list", "menu", "space", "stepper"];
+const targets = ["basic", "demo", "embed", "list", "menu", "space", "stepper"];
 
 for (const target of targets) {
   await rm(resolve(target), { recursive: true, force: true });

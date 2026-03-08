@@ -23,6 +23,16 @@ const demos = [
     publicUrl: `${siteRoot}/demo/`,
   },
   {
+    slug: "embed",
+    title: "Script Tag Embed",
+    description:
+      "A plain browser bundle with auto-mounting widgets, page-level events, and a host-driven scene remix built without React.",
+    workspace: "@tilt-to-edit/script-tag-embed-example",
+    distDir: resolve("examples/script-tag-embed/dist"),
+    kind: "Browser embed",
+    publicUrl: `${siteRoot}/embed/`,
+  },
+  {
     slug: "basic",
     title: "React Basic",
     description:
@@ -299,7 +309,7 @@ async function createLandingPage() {
   <body>
     <main>
       <section class="hero">
-        <p class="eyebrow">Tilt To Edit v0.2.13</p>
+        <p class="eyebrow">Tilt To Edit v0.3.0</p>
         <h1>Choose a demo from the root page</h1>
         <p>
           GitHub Pages now publishes the integrated demo and each focused example

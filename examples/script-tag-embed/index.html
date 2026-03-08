@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tilt To Edit Script Tag Embed</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="page">
+      <div class="ambient ambient-one" aria-hidden="true"></div>
+      <div class="ambient ambient-two" aria-hidden="true"></div>
+
+      <header class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">Script Tag Embed v0.3.0</p>
+          <h1>Drop one script tag into any site and start steering the page with tilt.</h1>
+          <p class="hero-text">
+            This route uses the plain browser bundle, not React. One embedded
+            sensor widget drives the scene remix, while a second widget proves
+            the declarative menu can mount itself from HTML attributes alone.
+          </p>
+        </div>
+
+        <div class="hero-panel">
+          <pre><code>&lt;div data-tilt-to-edit="sensor"&gt;&lt;/div&gt;
+&lt;script src="./tilt-to-edit-embed.iife.js"&gt;&lt;/script&gt;</code></pre>
+          <div class="hero-actions">
+            <button id="enable-all" type="button">Enable tilt everywhere</button>
+            <button id="calibrate-all" type="button">Calibrate embeds</button>
+          </div>
+        </div>
+      </header>
+
+      <section class="grid">
+        <article class="scene-card">
+          <div class="scene-preview" id="scene-preview">
+            <div class="scene-glow" id="scene-glow"></div>
+            <div class="scene-grid"></div>
+            <div class="scene-skyline" id="scene-skyline">
+              <span class="tower tower-a"></span>
+              <span class="tower tower-b"></span>
+              <span class="tower tower-c"></span>
+              <span class="tower tower-d"></span>
+            </div>
+            <div class="scene-ground" id="scene-ground"></div>
+            <div class="scene-beam" id="scene-beam"></div>
+            <div class="scene-character" id="scene-character">
+              <div class="character-aura" id="character-aura"></div>
+              <div class="character-shadow" id="character-shadow"></div>
+              <div class="character-head" id="character-head"></div>
+              <div class="character-body" id="character-body"></div>
+              <div class="character-core" id="character-core"></div>
+            </div>
+            <div class="scene-ui">
+              <div>
+                <span>World</span>
+                <strong id="world-name"></strong>
+                <p id="world-summary"></p>
+              </div>
+              <div>
+                <span>Character</span>
+                <strong id="character-name"></strong>
+                <p id="character-summary"></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="scene-meta">
+            <div>
+              <span>Backdrop trigger</span>
+              <strong>Tilt left or right</strong>
+            </div>
+            <div>
+              <span>Character trigger</span>
+              <strong>Tilt up or down</strong>
+            </div>
+            <div>
+              <span>Host integration</span>
+              <strong>`tilt-to-edit:state` event</strong>
+            </div>
+          </div>
+        </article>
+
+        <section class="embed-stack">
+          <div
+            class="script-widget"
+            id="scene-driver"
+            data-tilt-to-edit="sensor"
+            data-tilt-title="Scene Intent Driver"
+            data-tilt-description="The host page listens to this widget and remixes the external scene without React."
+          ></div>
+
+          <div
+            class="script-widget"
+            id="menu-driver"
+            data-tilt-to-edit="menu"
+            data-tilt-title="Declarative Menu Embed"
+            data-tilt-description="This one auto-mounts from HTML only. Commit a preset and the host scene updates."
+            data-tilt-items="Neon Alley|Solar Dunes|Rain Archive|Forest Shrine"
+          ></div>
+        </section>
+      </section>
+    </main>
+
+    <script src="./tilt-to-edit-embed.iife.js"></script>
+    <script type="module" src="./main.js"></script>
+  </body>
+</html>

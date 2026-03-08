@@ -1,27 +1,24 @@
 {
-  "name": "@tilt-to-edit/react",
+  "name": "@tilt-to-edit/embed",
   "version": "0.3.0",
   "type": "module",
-  "main": "./dist/index.js",
+  "main": "./dist/tilt-to-edit-embed.js",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/index.js",
+      "import": "./dist/tilt-to-edit-embed.js",
       "types": "./dist/index.d.ts"
-    }
+    },
+    "./browser": "./dist/tilt-to-edit-embed.iife.js"
   },
   "files": [
     "dist"
   ],
-  "peerDependencies": {
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1"
-  },
   "dependencies": {
     "@tilt-to-edit/core": "0.3.0"
   },
   "scripts": {
-    "build": "tsc -p tsconfig.build.json",
+    "build": "vite build && tsc -p tsconfig.build.json",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   }
 }
