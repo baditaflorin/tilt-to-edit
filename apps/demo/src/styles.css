@@ -125,6 +125,11 @@ input[type="range"] {
   color: rgba(226, 232, 240, 0.88);
 }
 
+.hero-credit {
+  margin-top: 1rem;
+  color: rgba(226, 232, 240, 0.74);
+}
+
 .section-head {
   display: flex;
   flex-wrap: wrap;

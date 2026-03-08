@@ -140,6 +140,14 @@ export function App({ backend }: AppProps) {
             <a className="back-link" href="../space/">
               Open 3D vector space
             </a>
+            <a
+              className="back-link"
+              href="https://github.com/baditaflorin/tilt-to-edit"
+              rel="noreferrer"
+              target="_blank"
+            >
+              Fork on GitHub
+            </a>
             <span className={`status-badge status-${state.status}`}>
               {state.status}
             </span>
@@ -193,6 +201,18 @@ export function App({ backend }: AppProps) {
               </button>
             )}
           </div>
+          <p className="hero-credit">
+            Created by{" "}
+            <a
+              className="back-link"
+              href="https://www.linkedin.com/in/baditaflorin/"
+              rel="noreferrer"
+              target="_blank"
+            >
+              Florin Badita
+            </a>
+            . Fork the source to adapt it for your own site.
+          </p>
         </div>
       </header>
 

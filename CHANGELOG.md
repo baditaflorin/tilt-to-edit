@@ -6,6 +6,10 @@ The format is based on Keep a Changelog, and this project aims to follow Semanti
 
 ## [Unreleased]
 
+### Changed
+
+- Added direct GitHub fork/source links to the integrated demo and README, plus maintainer contact details for Florin Badita.
+
 ## [0.3.0] - 2026-03-08
 
 ### Added

@@ -16,6 +16,9 @@ describe("Demo app", () => {
     expect(
       screen.getByRole("heading", { name: "Live Slider Monitor" }),
     ).toBeInTheDocument();
+    expect(
+      screen.getByRole("link", { name: "Fork on GitHub" }),
+    ).toHaveAttribute("href", "https://github.com/baditaflorin/tilt-to-edit");
 
     act(() => {
       simulator.emit({ beta: 0, gamma: 0, timestamp: 0 });
