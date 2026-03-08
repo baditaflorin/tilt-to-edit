@@ -79,6 +79,7 @@ export function Controls({
   onToggleArm,
   onPause,
   onResume,
+  showArmToggle = true,
 }: {
   snapshot: TiltEngineSnapshot;
   onRequestPermission: () => void;
@@ -86,6 +87,7 @@ export function Controls({
   onToggleArm: () => void;
   onPause: () => void;
   onResume: () => void;
+  showArmToggle?: boolean;
 }) {
   return (
     <div
@@ -104,9 +106,11 @@ export function Controls({
       <button onClick={onCalibrate} type="button">
         Calibrate
       </button>
-      <button onClick={onToggleArm} type="button">
-        {snapshot.armed ? "Disarm" : "Arm"}
-      </button>
+      {showArmToggle ? (
+        <button onClick={onToggleArm} type="button">
+          {snapshot.armed ? "Disarm" : "Arm"}
+        </button>
+      ) : null}
       {snapshot.status === "active" ? (
         <button onClick={onPause} type="button">
           Pause
@@ -119,4 +123,3 @@ export function Controls({
     </div>
   );
 }
-

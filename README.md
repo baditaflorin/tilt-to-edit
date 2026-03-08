@@ -4,7 +4,7 @@
 
 ## Status
 
-`v0.2.0` implements ADR 0001 through ADR 0010. `v0.2.1` adds a GitHub Pages landing page, `v0.2.2` publishes that static bundle at the repository root so the live Pages URLs work with the repository's current branch-based Pages configuration, `v0.2.3` adds QR codes for each live demo on the landing page, and `v0.2.4` brings live device mode to the standalone stepper and list examples.
+`v0.2.0` implements ADR 0001 through ADR 0010. `v0.2.1` adds a GitHub Pages landing page, `v0.2.2` publishes that static bundle at the repository root so the live Pages URLs work with the repository's current branch-based Pages configuration, `v0.2.3` adds QR codes for each live demo on the landing page, `v0.2.4` brings live device mode to the standalone stepper and list examples, and `v0.2.5` makes slider preview track tilt by default while keeping explicit confirmation.
 
 Implemented surfaces:
 

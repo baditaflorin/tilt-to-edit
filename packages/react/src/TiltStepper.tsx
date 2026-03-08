@@ -79,6 +79,7 @@ export function TiltStepper({
         onResume={() => {
           void resume();
         }}
+        showArmToggle={requireArm}
       />
       <div style={{ marginTop: "16px", display: "flex", gap: "8px" }}>
         <button

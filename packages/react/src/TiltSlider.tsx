@@ -23,7 +23,7 @@ export function TiltSlider({
   max = 100,
   sensitivity = 20,
   backend,
-  requireArm = true,
+  requireArm = false,
   onCommit,
 }: TiltSliderProps) {
   const { state, requestPermission, calibrate, confirm, pause, resume, setArmed } =
@@ -77,6 +77,7 @@ export function TiltSlider({
         onResume={() => {
           void resume();
         }}
+        showArmToggle={requireArm}
       />
       <div style={{ marginTop: "16px", display: "flex", gap: "8px" }}>
         <button

@@ -33,7 +33,7 @@ describe("Tilt primitives", () => {
     expect(onCommit).toHaveBeenCalledWith(11);
   });
 
-  it("uses arm mode for continuous slider previews", async () => {
+  it("updates continuous slider previews by default", async () => {
     const simulator = createTiltSimulator();
 
     function Wrapper() {
@@ -55,9 +55,40 @@ describe("Tilt primitives", () => {
       simulator.emit({ beta: 0, gamma: 0, timestamp: 0 });
       simulator.emit({ beta: 0, gamma: 20, timestamp: 10 });
     });
+
+    await waitFor(() => {
+      expect(getMetricValue("Draft")).toBe("58.00");
+    });
+  });
+
+  it("supports optional arm mode for continuous slider previews", async () => {
+    const simulator = createTiltSimulator();
+
+    function Wrapper() {
+      const [value, setValue] = useState(50);
+      return (
+        <TiltSlider
+          backend={simulator.backend}
+          onCommit={(nextValue) => {
+            setValue(nextValue);
+          }}
+          requireArm
+          value={value}
+        />
+      );
+    }
+
+    render(<Wrapper />);
+
+    act(() => {
+      simulator.emit({ beta: 0, gamma: 0, timestamp: 0 });
+      simulator.emit({ beta: 0, gamma: 20, timestamp: 10 });
+    });
+
     expect(getMetricValue("Draft")).toBe("50.00");
 
     fireEvent.click(screen.getByRole("button", { name: "Arm" }));
+
     act(() => {
       simulator.emit({ beta: 0, gamma: 20, timestamp: 20 });
     });

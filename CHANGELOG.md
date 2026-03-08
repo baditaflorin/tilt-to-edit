@@ -6,6 +6,16 @@ The format is based on Keep a Changelog, and this project aims to follow Semanti
 
 ## [Unreleased]
 
+## [0.2.5] - 2026-03-08
+
+### Fixed
+
+- Changed `TiltSlider` to preview position updates directly from tilt intent by default, which fixes the demo slider appearing frozen while `Intent X` changes.
+
+### Changed
+
+- The shared primitive controls now only show the arm toggle when a component explicitly requires arm mode.
+
 ## [0.2.4] - 2026-03-08
 
 ### Fixed
